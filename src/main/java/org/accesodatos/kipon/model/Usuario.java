@@ -15,7 +15,7 @@ public class Usuario {
     private Long id;
 
     @Column(name ="nombre_usuario", nullable = false, unique = true)
-    private String nombreUsuario;
+    private String nombre;
 
     @Column(nullable = false)
     private String password;
@@ -29,10 +29,10 @@ public class Usuario {
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private Perfil perfil;
 
-    @OneToMany(mappedBy = "administrador")
-    private List<Hucha> huchasAdministradas;
-
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TransaccionAhorro> transaccionAhorro;
+    private List<TransaccionAhorro> transaccionesAhorro;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<UsuarioHucha> huchas;
 
 }

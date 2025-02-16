@@ -7,6 +7,7 @@ import java.time.LocalDate;
 @Data
 public class TransaccionAhorroDTO {
     private Long id;
+    private String usuario;
     private Double cantidad;
     private LocalDate fecha;
 }

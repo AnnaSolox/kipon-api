@@ -31,9 +31,12 @@ public class Hucha {
     private LocalDate fechaObjetivo;
 
     @ManyToOne
-    @JoinColumn(name="id_usuario", nullable = false)
+    @JoinColumn(name="id_administrador", nullable = false)
     private Usuario administrador;
 
     @OneToMany(mappedBy = "hucha", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TransaccionAhorro> transaccionesAhorro;
+
+    @OneToMany(mappedBy = "hucha")
+    private List<UsuarioHucha> miembrosTransacciones;
 }
