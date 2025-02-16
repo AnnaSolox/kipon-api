@@ -1,12 +1,9 @@
 package org.accesodatos.kipon.mappers;
 
 import org.accesodatos.kipon.dtos.request.create.HuchaCreateDTO;
-import org.accesodatos.kipon.dtos.request.create.UsuarioCreateDTO;
 import org.accesodatos.kipon.dtos.request.patch.HuchaPatchDTO;
-import org.accesodatos.kipon.dtos.request.patch.UsuarioPatchDTO;
 import org.accesodatos.kipon.dtos.response.HuchaDTO;
 import org.accesodatos.kipon.model.Hucha;
-import org.accesodatos.kipon.model.Usuario;
 import org.mapstruct.*;
 
 @Mapper(componentModel = "spring", uses = {TransaccionAhorroMapper.class, UsuarioHuchaMapper.class})

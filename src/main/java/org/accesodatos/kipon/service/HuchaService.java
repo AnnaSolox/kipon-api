@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.accesodatos.kipon.dtos.request.create.HuchaCreateDTO;
 import org.accesodatos.kipon.dtos.request.create.UsuarioHuchaCreateDTO;
 import org.accesodatos.kipon.dtos.response.HuchaDTO;
-import org.accesodatos.kipon.model.Usuario;
 
 import java.util.List;
 

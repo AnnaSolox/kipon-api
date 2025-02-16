@@ -11,7 +11,6 @@ import org.accesodatos.kipon.dtos.request.create.HuchaCreateDTO;
 import org.accesodatos.kipon.dtos.request.create.UsuarioHuchaCreateDTO;
 import org.accesodatos.kipon.dtos.request.patch.HuchaPatchDTO;
 import org.accesodatos.kipon.dtos.response.HuchaDTO;
-import org.accesodatos.kipon.dtos.response.UsuarioDTO;
 import org.accesodatos.kipon.mappers.HuchaMapper;
 import org.accesodatos.kipon.model.Hucha;
 import org.accesodatos.kipon.model.Usuario;

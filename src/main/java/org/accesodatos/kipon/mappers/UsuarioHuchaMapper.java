@@ -1,6 +1,5 @@
 package org.accesodatos.kipon.mappers;
 
-import org.accesodatos.kipon.dtos.request.create.HuchaCreateDTO;
 import org.accesodatos.kipon.dtos.request.create.UsuarioHuchaCreateDTO;
 import org.accesodatos.kipon.dtos.response.HuchaRolDTO;
 import org.accesodatos.kipon.model.UsuarioHucha;
