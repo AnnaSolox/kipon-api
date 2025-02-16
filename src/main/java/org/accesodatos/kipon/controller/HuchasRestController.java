@@ -29,13 +29,13 @@ public class HuchasRestController {
 
     @GetMapping("/{id}")
     public ResponseEntity<HuchaDTO> obtenerHuchaPorId(@PathVariable Long id){
-        HuchaDTO huchaDTO = huchaService.obtenerHuchaPorId(id);
+        HuchaDTO hucha = huchaService.obtenerHuchaPorId(id);
 
-        if (huchaDTO == null) {
+        if (hucha == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        return ResponseEntity.ok(huchaDTO);
+        return ResponseEntity.ok(hucha);
     }
 
     @GetMapping("/administrador/{id}")

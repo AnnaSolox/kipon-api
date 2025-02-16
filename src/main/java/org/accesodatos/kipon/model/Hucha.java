@@ -38,5 +38,5 @@ public class Hucha {
     private List<TransaccionAhorro> transaccionesAhorro;
 
     @OneToMany(mappedBy = "hucha")
-    private List<UsuarioHucha> miembrosTransacciones;
+    private List<UsuarioHucha> usuarios;
 }
