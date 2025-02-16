@@ -5,6 +5,6 @@ import org.accesodatos.kipon.model.UsuarioHucha;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", uses = HuchaMapper.class)
-public interface HuchaRolMapper {
+public interface UsuarioHuchaMapper {
     HuchaRolDTO toDTO (UsuarioHucha usuarioHucha);
 }

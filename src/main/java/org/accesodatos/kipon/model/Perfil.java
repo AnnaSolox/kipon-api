@@ -18,7 +18,7 @@ public class Perfil {
     private String telefono;
     private String direccion;
 
-    @OneToOne
+    @OneToOne (fetch = FetchType.EAGER)
     @MapsId
     @JoinColumn(name="id_usuario", nullable = false, unique = true)
     private Usuario usuario;
