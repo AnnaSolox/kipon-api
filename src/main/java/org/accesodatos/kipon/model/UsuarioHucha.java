@@ -1,6 +1,7 @@
 package org.accesodatos.kipon.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.accesodatos.kipon.model.key.UsuarioHuchaKey;
@@ -8,7 +9,9 @@ import org.accesodatos.kipon.model.key.UsuarioHuchaKey;
 import java.time.LocalDate;
 
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "Usuario_Hucha")
 @Entity
 public class UsuarioHucha {
     @EmbeddedId

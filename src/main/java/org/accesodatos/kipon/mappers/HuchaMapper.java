@@ -9,7 +9,7 @@ import org.accesodatos.kipon.model.Hucha;
 import org.accesodatos.kipon.model.Usuario;
 import org.mapstruct.*;
 
-@Mapper(componentModel = "spring", uses = TransaccionAhorroMapper.class)
+@Mapper(componentModel = "spring", uses = {TransaccionAhorroMapper.class, UsuarioHuchaMapper.class})
 public interface HuchaMapper {
     @Mapping(source = "administrador.nombre", target = "administrador")
     HuchaDTO toDTO(Hucha hucha);

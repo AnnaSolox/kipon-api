@@ -37,6 +37,6 @@ public class Hucha {
     @OneToMany(mappedBy = "hucha", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TransaccionAhorro> transaccionesAhorro;
 
-    @OneToMany(mappedBy = "hucha")
+    @OneToMany(mappedBy = "hucha", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UsuarioHucha> usuarios;
 }
