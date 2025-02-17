@@ -4,13 +4,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.accesodatos.kipon.dtos.request.create.HuchaCreateDTO;
-import org.accesodatos.kipon.dtos.request.create.TransaccionAhorroCreateDTO;
+import org.accesodatos.kipon.dtos.request.create.AhorroCreateDTO;
 import org.accesodatos.kipon.dtos.request.create.UsuarioHuchaCreateDTO;
 import org.accesodatos.kipon.dtos.response.HuchaDTO;
-import org.accesodatos.kipon.dtos.response.TransaccionAhorroDTO;
+import org.accesodatos.kipon.dtos.response.AhorroDTO;
 import org.accesodatos.kipon.dtos.response.UsuarioDTO;
 import org.accesodatos.kipon.service.HuchaService;
-import org.accesodatos.kipon.service.TransaccionAhorroService;
+import org.accesodatos.kipon.service.AhorroService;
 import org.accesodatos.kipon.service.UsuarioHuchaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ import java.util.List;
 public class HuchasRestController {
     private final HuchaService huchaService;
     private final UsuarioHuchaService usuarioHuchaService;
-    private final TransaccionAhorroService transaccionAhorroService;
+    private final AhorroService ahorroService;
 
     @GetMapping
     public ResponseEntity<List<HuchaDTO>> obtenerTodasLasHuchas(){
@@ -41,10 +41,10 @@ public class HuchasRestController {
         return ResponseEntity.status(HttpStatus.CREATED).body(huchaCreada);
     }
 
-    @PostMapping("/{id}/transaccionesAhorro")
-    public ResponseEntity<TransaccionAhorroDTO> crearTransaccionAhorro(@PathVariable Long id,
-                                                                       @Valid @RequestBody TransaccionAhorroCreateDTO dto){
-        TransaccionAhorroDTO transaccionCreada = transaccionAhorroService.crearTransaccion(id, dto);
+    @PostMapping("/{id}/ahorros")
+    public ResponseEntity<AhorroDTO> crearAhorro(@PathVariable Long id,
+                                                            @Valid @RequestBody AhorroCreateDTO dto){
+        AhorroDTO transaccionCreada = ahorroService.crearAhorro(id, dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(transaccionCreada);
     }
 

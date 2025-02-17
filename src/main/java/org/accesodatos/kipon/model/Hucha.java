@@ -35,7 +35,7 @@ public class Hucha {
     private Usuario administrador;
 
     @OneToMany(mappedBy = "hucha", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TransaccionAhorro> transaccionesAhorro;
+    private List<Ahorro> ahorros;
 
     @OneToMany(mappedBy = "hucha", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UsuarioHucha> usuarios;

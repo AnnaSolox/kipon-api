@@ -14,10 +14,6 @@ public class HuchaCreateDTO {
     @Size(max = 100, message = "El nombre no puede contener más de 100 caracteres")
     private String nombre;
 
-    @NotNull(message = "La cantidad total es obligatoria")
-    @Min(value = 0, message = "La cantidad total no puede ser negativa")
-    private Double cantidadTotal;
-
     @NotNull(message = "El objetivo de ahorro es obligatorio")
     @Min(value = 0, message = "El objetivo de ahorro no puede ser negativo")
     private Double objetivoAhorro;

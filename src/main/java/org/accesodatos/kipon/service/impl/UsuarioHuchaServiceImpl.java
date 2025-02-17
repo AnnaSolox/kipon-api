@@ -6,12 +6,12 @@ import org.accesodatos.kipon.dtos.request.create.UsuarioHuchaCreateDTO;
 import org.accesodatos.kipon.dtos.response.UsuarioDTO;
 import org.accesodatos.kipon.mappers.UsuarioMapper;
 import org.accesodatos.kipon.model.Hucha;
-import org.accesodatos.kipon.model.TransaccionAhorro;
+import org.accesodatos.kipon.model.Ahorro;
 import org.accesodatos.kipon.model.Usuario;
 import org.accesodatos.kipon.model.UsuarioHucha;
 import org.accesodatos.kipon.model.key.UsuarioHuchaKey;
 import org.accesodatos.kipon.repository.HuchaRepository;
-import org.accesodatos.kipon.repository.TransaccionAhorroRepository;
+import org.accesodatos.kipon.repository.AhorroRepository;
 import org.accesodatos.kipon.repository.UsuarioHuchaRepository;
 import org.accesodatos.kipon.repository.UsuarioRepository;
 import org.accesodatos.kipon.service.UsuarioHuchaService;
@@ -27,7 +27,7 @@ public class UsuarioHuchaServiceImpl implements UsuarioHuchaService {
     private final UsuarioRepository usuarioRepository;
     private final HuchaRepository huchaRepository;
     private final UsuarioHuchaRepository usuarioHuchaRepository;
-    private final TransaccionAhorroRepository transaccionAhorroRepository;
+    private final AhorroRepository ahorroRepository;
     private final UsuarioMapper usuarioMapper;
 
     @Override
@@ -95,16 +95,16 @@ public class UsuarioHuchaServiceImpl implements UsuarioHuchaService {
             throw new IllegalStateException("No se puede eliminar al administrador de la hucha");
         }
 
-        // Obtener todas las transacciones del usuario en esta hucha
-        List<TransaccionAhorro> transacciones = transaccionAhorroRepository.findTransaccionesByUserAndHucha(idUsuario,
+        // Obtener todas las ahorros del usuario en esta hucha
+        List<Ahorro> ahorros = ahorroRepository.findAhorrosByUsuarioHucha(idUsuario,
                 idHucha);
 
-        Double totalTransacciones = transacciones.stream()
-                .map(TransaccionAhorro::getCantidad)
+        Double totalAhorros = ahorros.stream()
+                .map(Ahorro::getCantidad)
                 .reduce(0.0, Double::sum);
 
-        hucha.setCantidadTotal(hucha.getCantidadTotal() - totalTransacciones);
-        transaccionAhorroRepository.deleteAll(transacciones);
+        hucha.setCantidadTotal(hucha.getCantidadTotal() - totalAhorros);
+        ahorroRepository.deleteAll(ahorros);
 
         // Eliminar la asociación UsuarioHucha
         UsuarioHucha usuarioHucha = usuarioHuchaExistente.get();

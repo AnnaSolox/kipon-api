@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class TransaccionAhorroCreateDTO {
+public class AhorroCreateDTO {
     @NotNull(message = "El ID del usuario es obligatorio")
     private Long idUsuario;
 

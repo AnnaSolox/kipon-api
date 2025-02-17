@@ -30,7 +30,7 @@ public class Usuario {
     private Perfil perfil;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TransaccionAhorro> transaccionesAhorro;
+    private List<Ahorro> ahorros;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UsuarioHucha> huchas;

@@ -2,45 +2,36 @@ package org.accesodatos.kipon.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.accesodatos.kipon.dtos.request.create.TransaccionAhorroCreateDTO;
-import org.accesodatos.kipon.dtos.response.TransaccionAhorroDTO;
-import org.accesodatos.kipon.mappers.TransaccionAhorroMapper;
+import org.accesodatos.kipon.dtos.request.create.AhorroCreateDTO;
+import org.accesodatos.kipon.dtos.response.AhorroDTO;
+import org.accesodatos.kipon.mappers.AhorroMapper;
 import org.accesodatos.kipon.model.Hucha;
-import org.accesodatos.kipon.model.TransaccionAhorro;
+import org.accesodatos.kipon.model.Ahorro;
 import org.accesodatos.kipon.model.Usuario;
 import org.accesodatos.kipon.model.UsuarioHucha;
 import org.accesodatos.kipon.repository.HuchaRepository;
-import org.accesodatos.kipon.repository.TransaccionAhorroRepository;
+import org.accesodatos.kipon.repository.AhorroRepository;
 import org.accesodatos.kipon.repository.UsuarioHuchaRepository;
 import org.accesodatos.kipon.repository.UsuarioRepository;
-import org.accesodatos.kipon.service.TransaccionAhorroService;
+import org.accesodatos.kipon.service.AhorroService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class TransaccionAhorroServiceImpl implements TransaccionAhorroService {
-    private final TransaccionAhorroRepository transaccionAhorroRepository;
-    private final TransaccionAhorroMapper transaccionAhorroMapper;
+public class AhorroServiceImpl implements AhorroService {
+    private final AhorroRepository ahorroRepository;
+    private final AhorroMapper ahorroMapper;
     private final UsuarioRepository usuarioRepository;
     private final HuchaRepository huchaRepository;
     private final UsuarioHuchaRepository usuarioHuchaRepository;
 
     @Override
-    public List<TransaccionAhorroDTO> obtenerTransaccionesAhorroDeHucha() {
-        return transaccionAhorroRepository.findAllByOrderByIdAsc()
-                .stream()
-                .map(transaccionAhorroMapper::toDTO)
-                .toList();
-    }
-
-    @Override
     @Transactional
-    public TransaccionAhorroDTO crearTransaccion(Long idHucha, TransaccionAhorroCreateDTO dto) {
+    public AhorroDTO crearAhorro(Long idHucha, AhorroCreateDTO dto) {
         Hucha hucha = huchaRepository.findById(idHucha)
                 .orElseThrow(() -> new NoSuchElementException("Hucha con id " + idHucha + " no encontrada"));
 
@@ -53,16 +44,16 @@ public class TransaccionAhorroServiceImpl implements TransaccionAhorroService {
             throw new IllegalArgumentException("El usuario con id " + dto.getIdUsuario() + " no está asociado a la hucha con id " + idHucha);
         }
 
-        TransaccionAhorro transaccion = transaccionAhorroMapper.toEntity(dto);
-        transaccion.setHucha(hucha);
-        transaccion.setUsuario(usuario);
-        transaccion.setFecha(LocalDate.now());
+        Ahorro ahorro = ahorroMapper.toEntity(dto);
+        ahorro.setHucha(hucha);
+        ahorro.setUsuario(usuario);
+        ahorro.setFecha(LocalDate.now());
 
-        hucha.setCantidadTotal(hucha.getCantidadTotal() + transaccion.getCantidad());
+        hucha.setCantidadTotal(hucha.getCantidadTotal() + ahorro.getCantidad());
 
-        transaccionAhorroRepository.save(transaccion);
+        ahorroRepository.save(ahorro);
         huchaRepository.save(hucha);
 
-        return transaccionAhorroMapper.toDTO(transaccion);
+        return ahorroMapper.toDTO(ahorro);
     }
 }

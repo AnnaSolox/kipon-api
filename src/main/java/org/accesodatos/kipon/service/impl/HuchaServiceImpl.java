@@ -61,6 +61,7 @@ public class HuchaServiceImpl implements HuchaService {
                 .orElseThrow(() -> new NoSuchElementException("Usuario con id " + dto.getIdAdministrador() + " no encontrado"));
 
         Hucha hucha = huchaMapper.toEntity(dto);
+        hucha.setCantidadTotal(0.0);
         hucha.setAdministrador(administrador);
         hucha.setFechaCreacion(LocalDateTime.now());
 
