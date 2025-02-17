@@ -12,7 +12,6 @@ public interface HuchaService {
     HuchaDTO obtenerHuchaPorId(Long id);
     List<HuchaDTO> obtenerHuchasPorIdAdministrador(Long id);
     HuchaDTO crearHucha(HuchaCreateDTO dto);
-    UsuarioHuchaCreateDTO añadirUsuarioHucha(UsuarioHuchaCreateDTO dto);
     HuchaDTO actualizarHuchaParcial(Long id, JsonNode patch);
     void eliminarHucha(Long id);
 }

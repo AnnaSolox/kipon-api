@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS Usuario (
 CREATE TABLE IF NOT EXISTS Perfil (
     id_perfil SERIAL PRIMARY KEY,
     id_usuario INT NOT NULL UNIQUE,
-    nombre_completo VARCHAR(100) UNIQUE,
+    nombre_completo VARCHAR(100) NOT NULL,
     telefono VARCHAR(15) UNIQUE,
     direccion TEXT,
     FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario) ON DELETE CASCADE
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS Hucha (
     cantidad_total DECIMAL(10, 2) DEFAULT 0.00 CHECK (cantidad_total >= 0.00),
     objetivo_ahorro DECIMAL(10, 2) DEFAULT 0.00 CHECK (objetivo_ahorro >= 0.00),
     fecha_creacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    fecha_objetivo DATE,  
+    fecha_objetivo DATE DEFAULT NULL,  
     FOREIGN KEY (id_administrador) REFERENCES Usuario(id_usuario)
         ON DELETE RESTRICT
         ON UPDATE CASCADE
@@ -72,40 +72,6 @@ CREATE TABLE IF NOT EXISTS Usuario_Hucha (
     FOREIGN KEY (id_hucha) REFERENCES Hucha(id_hucha)
         ON DELETE CASCADE
 );
-
--- Trigger para actualizar el monto_total de la Hucha al insertar un nuevo ahorro
-CREATE OR REPLACE FUNCTION actualizar_cantidad_total()
-RETURNS TRIGGER AS $$
-BEGIN
-    UPDATE Hucha
-    SET cantidad_total = cantidad_total + NEW.cantidad
-    WHERE id_hucha = NEW.id_hucha;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
--- Crear el trigger
-CREATE TRIGGER after_insert_transaccion
-AFTER INSERT ON Transacciones_Ahorro
-FOR EACH ROW
-EXECUTE FUNCTION actualizar_cantidad_total();
-
--- Trigger para actualizar la cantidad total de la Hucha cuando se elimina un ahorro
-CREATE OR REPLACE FUNCTION actualizar_cantidad_total_borrado()
-RETURNS TRIGGER AS $$
-BEGIN
-    UPDATE Hucha
-    SET cantidad_total = cantidad_total - OLD.cantidad
-    WHERE id_hucha = OLD.id_hucha;
-    RETURN OLD;
-END;
-$$ LANGUAGE plpgsql;
-
--- Crear el trigger para actualización del monto_total al eliminar un ahorro
-CREATE TRIGGER after_delete_transaccion
-AFTER DELETE ON Transacciones_Ahorro
-FOR EACH ROW
-EXECUTE FUNCTION actualizar_cantidad_total_borrado();
 
 -- Insertar datos en la tabla Usuario
 INSERT INTO Usuario (nombre_usuario, password, email)
@@ -158,7 +124,7 @@ VALUES
 -- Insertar datos en la tabla Hucha
   INSERT INTO Hucha (nombre_hucha, id_administrador, cantidad_total, objetivo_ahorro, fecha_creacion, fecha_objetivo)
 VALUES
-  ('Vacaciones en la playa', 1, 500.00, 1500.00, DEFAULT, '2025-08-15'),
+  ('Vacaciones en la playa', 1, 750.00, 1500.00, DEFAULT, '2025-08-15'),
   ('Proyecto de Emprendimiento', 2, 1200.00, 5000.00, DEFAULT, '2025-12-31'),
   ('Fondo de Emergencia', 3, 800.00, 3000.00, DEFAULT, '2025-06-30'),
   ('Fiesta de Fin de Año', 4, 1000.00, 2000.00, DEFAULT, '2025-12-01'),
@@ -175,7 +141,7 @@ VALUES
   -- Hucha 1: Vacaciones en la playa (500.00)
   (1, 1, 200.00, '2025-01-10'),
   (2, 1, 300.00, '2025-02-20'),
-  (3, 1, 0.00, '2025-03-15'),
+  (3, 1, 250.00, '2025-03-15'),
 
   -- Hucha 2: Proyecto de Emprendimiento (1200.00)
   (4, 2, 500.00, '2025-02-05'),

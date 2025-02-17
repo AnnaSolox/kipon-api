@@ -8,14 +8,12 @@ import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import org.accesodatos.kipon.dtos.request.create.HuchaCreateDTO;
-import org.accesodatos.kipon.dtos.request.create.UsuarioHuchaCreateDTO;
 import org.accesodatos.kipon.dtos.request.patch.HuchaPatchDTO;
 import org.accesodatos.kipon.dtos.response.HuchaDTO;
 import org.accesodatos.kipon.mappers.HuchaMapper;
 import org.accesodatos.kipon.model.Hucha;
 import org.accesodatos.kipon.model.Usuario;
 import org.accesodatos.kipon.model.UsuarioHucha;
-import org.accesodatos.kipon.model.key.UsuarioHuchaKey;
 import org.accesodatos.kipon.repository.HuchaRepository;
 import org.accesodatos.kipon.repository.UsuarioRepository;
 import org.accesodatos.kipon.service.HuchaService;
@@ -73,46 +71,6 @@ public class HuchaServiceImpl implements HuchaService {
 
     @Override
     @Transactional
-    public UsuarioHuchaCreateDTO añadirUsuarioHucha(UsuarioHuchaCreateDTO dto) {
-        Usuario usuario = usuarioRepository.findById(dto.getIdUsuario())
-                .orElseThrow(() -> new NoSuchElementException("Usuario no encontrado con id: " + dto.getIdUsuario()));
-
-        Hucha hucha = huchaRepository.findById(dto.getIdHucha())
-                .orElseThrow(() -> new NoSuchElementException("Hucha no encontrada con id: " + dto.getIdHucha()));
-
-        // Verificar si el usuario ya está asociado a la hucha
-        Optional<UsuarioHucha> usuarioHuchaExistente = hucha.getUsuarios().stream()
-                .filter(uh -> uh.getUsuario().equals(usuario))
-                .findFirst();
-
-        if (usuarioHuchaExistente.isPresent()) {
-            // Si el usuario ya pertenece a la hucha, solo actualizar el rol
-            usuarioHuchaExistente.get().setRol(dto.getRol());
-        } else {
-            // Si no está, crear una nueva asociación
-            UsuarioHucha usuarioHucha = new UsuarioHucha();
-            UsuarioHuchaKey key = new UsuarioHuchaKey(dto.getIdUsuario(), dto.getIdHucha());
-            usuarioHucha.setId(key);
-            usuarioHucha.setUsuario(usuario);
-            usuarioHucha.setHucha(hucha);
-            usuarioHucha.setRol(dto.getRol());
-
-            // Agregar la relación en ambas entidades
-            hucha.getUsuarios().add(usuarioHucha);
-            usuario.getHuchas().add(usuarioHucha);
-        }
-
-        // Guardar los cambios en ambas entidades
-        usuarioRepository.save(usuario);
-        huchaRepository.save(hucha);
-
-        // Devolver un DTO con la información actualizada
-        return dto;
-    }
-
-
-    @Override
-    @Transactional
     public HuchaDTO actualizarHuchaParcial(Long id, JsonNode patch) {
         Hucha huchaExistente = huchaRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Hucha no encontrada con id: " + id));
@@ -143,10 +101,20 @@ public class HuchaServiceImpl implements HuchaService {
             Usuario nuevoAdministrador = usuarioRepository.findById(huchaPatchDTO.getIdAdministrador())
                     .orElseThrow(() -> new NoSuchElementException("Usuario no encontrado con id: " + huchaPatchDTO.getIdAdministrador()));
 
+
+            //Comprobamos si el usuario existe en la hucha
+            boolean existeEnHucha = huchaExistente.getUsuarios().stream()
+                    .anyMatch(usuarioHucha -> usuarioHucha.getUsuario().equals(nuevoAdministrador));
+
+            if (!existeEnHucha) {
+                throw new IllegalStateException("El usuario no puede ser administrador porque no es miembro de la hucha");
+            }
+
+            // Guardamos el anterior administrador
             Usuario anteriorAdministrador = huchaExistente.getAdministrador();
 
+            // Si hay un administrador anterior y es diferente al nuevo, cambiar el rol del anterior a "miembro"
             if (anteriorAdministrador != null && !anteriorAdministrador.equals(nuevoAdministrador)) {
-                // Cambiar el rol del anterior administrador a "Miembro"
                 for (UsuarioHucha usuarioHucha : huchaExistente.getUsuarios()) {
                     if (usuarioHucha.getUsuario().equals(anteriorAdministrador)) {
                         usuarioHucha.setRol("Miembro");
@@ -158,27 +126,11 @@ public class HuchaServiceImpl implements HuchaService {
             // Asignar el nuevo administrador
             huchaExistente.setAdministrador(nuevoAdministrador);
 
-            // Verificar si el nuevo administrador ya está en la lista de UsuarioHucha
-            boolean existeAsociacion = huchaExistente.getUsuarios().stream()
-                    .anyMatch(usuarioHucha -> usuarioHucha.getUsuario().equals(nuevoAdministrador));
-
-            if (!existeAsociacion) {
-                UsuarioHucha usuarioHucha = new UsuarioHucha();
-                UsuarioHuchaKey key = new UsuarioHuchaKey(nuevoAdministrador.getId(), huchaExistente.getId());
-                usuarioHucha.setId(key);
-                usuarioHucha.setUsuario(nuevoAdministrador);
-                usuarioHucha.setHucha(huchaExistente);
-                usuarioHucha.setRol("Administrador");
-
-                huchaExistente.getUsuarios().add(usuarioHucha);
-                nuevoAdministrador.getHuchas().add(usuarioHucha);
-            } else {
-                // Si ya existe, solo cambiar el rol
-                for (UsuarioHucha usuarioHucha : huchaExistente.getUsuarios()) {
-                    if (usuarioHucha.getUsuario().equals(nuevoAdministrador)) {
-                        usuarioHucha.setRol("Administrador");
-                        break;
-                    }
+            // Actualizar el rol del nuevo administrador
+            for (UsuarioHucha usuarioHucha : huchaExistente.getUsuarios()) {
+                if (usuarioHucha.getUsuario().equals(nuevoAdministrador)) {
+                    usuarioHucha.setRol("Administrador");
+                    break;
                 }
             }
         }

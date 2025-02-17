@@ -4,9 +4,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.accesodatos.kipon.dtos.request.create.HuchaCreateDTO;
+import org.accesodatos.kipon.dtos.request.create.TransaccionAhorroCreateDTO;
 import org.accesodatos.kipon.dtos.request.create.UsuarioHuchaCreateDTO;
 import org.accesodatos.kipon.dtos.response.HuchaDTO;
+import org.accesodatos.kipon.dtos.response.TransaccionAhorroDTO;
+import org.accesodatos.kipon.dtos.response.UsuarioDTO;
 import org.accesodatos.kipon.service.HuchaService;
+import org.accesodatos.kipon.service.TransaccionAhorroService;
+import org.accesodatos.kipon.service.UsuarioHuchaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +23,8 @@ import java.util.List;
 @RequestMapping("/kipon/huchas")
 public class HuchasRestController {
     private final HuchaService huchaService;
+    private final UsuarioHuchaService usuarioHuchaService;
+    private final TransaccionAhorroService transaccionAhorroService;
 
     @GetMapping
     public ResponseEntity<List<HuchaDTO>> obtenerTodasLasHuchas(){
@@ -32,6 +39,13 @@ public class HuchasRestController {
     public ResponseEntity<HuchaDTO> crearHucha(@Valid @RequestBody HuchaCreateDTO dto) {
         HuchaDTO huchaCreada = huchaService.crearHucha(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(huchaCreada);
+    }
+
+    @PostMapping("/{id}/transaccionesAhorro")
+    public ResponseEntity<TransaccionAhorroDTO> crearTransaccionAhorro(@PathVariable Long id,
+                                                                       @Valid @RequestBody TransaccionAhorroCreateDTO dto){
+        TransaccionAhorroDTO transaccionCreada = transaccionAhorroService.crearTransaccion(id, dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(transaccionCreada);
     }
 
     @GetMapping("/{id}")
@@ -61,9 +75,15 @@ public class HuchasRestController {
     }
 
     @PostMapping("/usuario-hucha")
-    public ResponseEntity<UsuarioHuchaCreateDTO> añadirUsuarioHucha(@Valid @RequestBody UsuarioHuchaCreateDTO dto) {
-        UsuarioHuchaCreateDTO respuesta = huchaService.añadirUsuarioHucha(dto);
+    public ResponseEntity<UsuarioDTO> añadirUsuarioHucha(@Valid @RequestBody UsuarioHuchaCreateDTO dto) {
+        UsuarioDTO respuesta = usuarioHuchaService.añadirUsuarioHucha(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
+    }
+
+    @DeleteMapping("/usuario-hucha/{idUsuario}-{idHucha}")
+    public ResponseEntity<Void> eliminarUsuarioHucha(@PathVariable Long idUsuario, @PathVariable Long idHucha){
+        usuarioHuchaService.eliminarUsarioHucha(idUsuario, idHucha);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
