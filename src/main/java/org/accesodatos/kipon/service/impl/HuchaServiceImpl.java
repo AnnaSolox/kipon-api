@@ -11,6 +11,7 @@ import org.accesodatos.kipon.dtos.request.create.HuchaCreateDTO;
 import org.accesodatos.kipon.dtos.request.patch.HuchaPatchDTO;
 import org.accesodatos.kipon.dtos.response.HuchaDTO;
 import org.accesodatos.kipon.mappers.HuchaMapper;
+import org.accesodatos.kipon.mappers.UsuarioMapper;
 import org.accesodatos.kipon.model.Hucha;
 import org.accesodatos.kipon.model.Usuario;
 import org.accesodatos.kipon.model.UsuarioHucha;
@@ -30,6 +31,7 @@ public class HuchaServiceImpl implements HuchaService {
     private final UsuarioRepository usuarioRepository;
     private final ObjectMapper objectMapper;
     private final Validator validator;
+    private final UsuarioMapper usuarioMapper;
 
     @Override
     public List<HuchaDTO> obtenerTodasLasHuchas() {
@@ -41,13 +43,17 @@ public class HuchaServiceImpl implements HuchaService {
 
     @Override
     public HuchaDTO obtenerHuchaPorId(Long id) {
-        return huchaRepository.findById(id)
-                .map(huchaMapper::toDTO)
-                .orElse(null);
+        Hucha hucha = huchaRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Hucha con id " + id + " no encontrada"));
+        return huchaMapper.toDTO(hucha);
     }
 
     @Override
     public List<HuchaDTO> obtenerHuchasPorIdAdministrador(Long id) {
+        if (!usuarioRepository.existsById(id)){
+            throw new NoSuchElementException("El usuario con id "+ id + " no existe");
+        }
+
         return huchaRepository.findByAdministradorId(id)
                 .stream()
                 .map(huchaMapper::toDTO)

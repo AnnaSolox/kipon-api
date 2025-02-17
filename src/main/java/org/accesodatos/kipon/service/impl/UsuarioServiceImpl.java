@@ -39,9 +39,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public UsuarioDTO obtenerUsuarioPorId(Long id) {
-        return usuarioRepository.findById(id)
-                .map(usuarioMapper::toDTO)
-                .orElse(null);
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Usuario con id " + id + " no encontrado"));
+        return usuarioMapper.toDTO(usuario);
     }
 
     @Override
