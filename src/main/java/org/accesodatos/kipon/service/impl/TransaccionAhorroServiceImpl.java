@@ -44,9 +44,9 @@ public class TransaccionAhorroServiceImpl implements TransaccionAhorroService {
         Hucha hucha = huchaRepository.findById(idHucha)
                 .orElseThrow(() -> new NoSuchElementException("Hucha con id " + idHucha + " no encontrada"));
 
-        usuarioRepository.findById(dto.getIdUsuario())
-                .orElseThrow(() -> new NoSuchElementException("Usuario con id " + dto.getIdUsuario() + " no " +
-                        "encontrado"));
+        Usuario usuario = usuarioRepository.findById(dto.getIdUsuario())
+                .orElseThrow(() -> new NoSuchElementException("Usuario con id " + dto.getIdUsuario() + " no encontrado"));
+
 
         Optional<UsuarioHucha> usuarioHucha = usuarioHuchaRepository.findByUsuarioIdAndHuchaId(dto.getIdUsuario(), idHucha);
         if (usuarioHucha.isEmpty()) {
@@ -55,6 +55,7 @@ public class TransaccionAhorroServiceImpl implements TransaccionAhorroService {
 
         TransaccionAhorro transaccion = transaccionAhorroMapper.toEntity(dto);
         transaccion.setHucha(hucha);
+        transaccion.setUsuario(usuario);
         transaccion.setFecha(LocalDate.now());
 
         hucha.setCantidadTotal(hucha.getCantidadTotal() + transaccion.getCantidad());
