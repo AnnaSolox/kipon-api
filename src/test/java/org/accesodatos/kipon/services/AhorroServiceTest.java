@@ -1,4 +1,4 @@
-package org.accesodatos.services;
+package org.accesodatos.kipon.services;
 
 import jakarta.validation.Validator;
 import org.accesodatos.kipon.dtos.request.create.AhorroCreateDTO;

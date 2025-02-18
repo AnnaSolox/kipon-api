@@ -2,11 +2,14 @@ package org.accesodatos.kipon.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.accesodatos.kipon.dtos.request.create.AhorroCreateDTO;
 import org.accesodatos.kipon.dtos.request.create.HuchaCreateDTO;
 import org.accesodatos.kipon.dtos.request.create.UsuarioHuchaCreateDTO;
+import org.accesodatos.kipon.dtos.request.patch.HuchaPatchDTO;
 import org.accesodatos.kipon.dtos.response.AhorroDTO;
 import org.accesodatos.kipon.dtos.response.HuchaDTO;
 import org.accesodatos.kipon.dtos.response.UsuarioDTO;
@@ -66,6 +69,10 @@ public class HuchasRestController {
 
     @PatchMapping("/{id}")
     @Operation(summary = "Modifica los datos de una hucha")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "JSON con los datos de la hucha modificar. Todos los campos son opcionales.",
+            content = @Content(schema = @Schema(implementation = HuchaPatchDTO.class))
+    )
     public ResponseEntity<HuchaDTO> actualizarHuchaParcial(@PathVariable Long id, @RequestBody JsonNode patch){
         HuchaDTO huchaActualizada = huchaService.actualizarHuchaParcial(id, patch);
         return ResponseEntity.ok(huchaActualizada);
