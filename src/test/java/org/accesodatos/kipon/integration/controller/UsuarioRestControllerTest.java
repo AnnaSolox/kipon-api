@@ -129,8 +129,8 @@ public class UsuarioRestControllerTest {
     @Test
     void crearUsuario_DatosInvalidos() throws Exception {
         // Prueba para POST /kipon/usuarios con datos inválidos
-        // GIVEN: Datos inválidos (contraseña vacío)
 
+        // GIVEN
         usuarioCreateDTO.setPassword("");
         String jsonBody = objectMapper.writeValueAsString(usuarioCreateDTO);
 
@@ -147,7 +147,7 @@ public class UsuarioRestControllerTest {
     void actualizarUsuario_Exito() throws Exception {
         // Prueba para PUT o PATCH /kipon/usuarios/{id} con datos válidos
 
-        // GIVEN: Creamos el DTO para la actualización
+        // GIVEN
         PerfilUpdateDTO perfilUpdateDTO = new PerfilUpdateDTO();
         perfilUpdateDTO.setTelefono("1234567890");
         perfilUpdateDTO.setDireccion("DireccionTestUpdate");
@@ -185,6 +185,7 @@ public class UsuarioRestControllerTest {
     @Test
     void eliminarUsuario_Exito() throws Exception {
         // Prueba para DELETE /kipon/usuarios/{id} cuando el usuario existe
+
         // GIVEN
         doNothing().when(usuarioService).eliminarUsuario(1L);
 
