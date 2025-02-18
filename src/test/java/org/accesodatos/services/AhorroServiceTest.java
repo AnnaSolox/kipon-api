@@ -1,11 +1,6 @@
 package org.accesodatos.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Validator;
-
-
 import org.accesodatos.kipon.dtos.request.create.AhorroCreateDTO;
 import org.accesodatos.kipon.dtos.response.AhorroDTO;
 import org.accesodatos.kipon.mappers.AhorroMapper;
@@ -18,22 +13,23 @@ import org.accesodatos.kipon.repository.HuchaRepository;
 import org.accesodatos.kipon.repository.UsuarioHuchaRepository;
 import org.accesodatos.kipon.repository.UsuarioRepository;
 import org.accesodatos.kipon.service.impl.AhorroServiceImpl;
-import org.accesodatos.kipon.service.impl.UsuarioHuchaServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class AhorroServiceTest {

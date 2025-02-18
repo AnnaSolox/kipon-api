@@ -89,7 +89,7 @@ public class HuchaServiceTest {
         huchaDTO.setFechaCreacion(LocalDateTime.now());
         huchaDTO.setFechaObjetivo(LocalDate.now().plusMonths(6));
         huchaDTO.setAdministrador("usuarioAdministrador");
-        huchaDTO.setAhorros(Collections.emptyList());
+        huchaDTO.setAhorros(new ArrayList<>());
     }
 
     @Test
