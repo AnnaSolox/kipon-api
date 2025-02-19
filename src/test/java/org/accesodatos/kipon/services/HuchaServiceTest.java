@@ -163,6 +163,7 @@ public class HuchaServiceTest {
         when(huchaMapper.toEntity(huchaCreateDTO)).thenReturn(hucha);
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
         when(huchaRepository.save(any(Hucha.class))).thenReturn(hucha);
+        when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuario);
         when(huchaMapper.toDTO(any(Hucha.class))).thenReturn(huchaDTO);
 
         //WHEN
@@ -173,6 +174,9 @@ public class HuchaServiceTest {
         assertEquals(1L, resultado.getId());
         assertEquals("Hucha de Ahorro", resultado.getNombre());
         assertEquals(500.0, resultado.getObjetivoAhorro());
+
+        verify(huchaRepository, times(2)).save(any(Hucha.class));
+        verify(usuarioRepository, times(1)).save(any(Usuario.class));
     }
 
     @Test

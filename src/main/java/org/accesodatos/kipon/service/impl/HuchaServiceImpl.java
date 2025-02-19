@@ -68,6 +68,9 @@ public class HuchaServiceImpl implements HuchaService {
         Usuario administrador = usuarioRepository.findById(dto.getIdAdministrador())
                 .orElseThrow(() -> new NoSuchElementException("Usuario con id " + dto.getIdAdministrador() + " no encontrado"));
 
+        if(administrador.getHuchas() == null){
+            administrador.setHuchas(new ArrayList<>());
+        }
         Hucha hucha = huchaMapper.toEntity(dto);
         hucha.setCantidadTotal(0.0);
         hucha.setAdministrador(administrador);

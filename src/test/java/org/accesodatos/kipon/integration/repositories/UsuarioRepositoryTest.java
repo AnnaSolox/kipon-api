@@ -2,7 +2,6 @@ package org.accesodatos.kipon.integration.repositories;
 
 import org.accesodatos.kipon.model.Perfil;
 import org.accesodatos.kipon.model.Usuario;
-import org.accesodatos.kipon.repository.HuchaRepository;
 import org.accesodatos.kipon.repository.UsuarioRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

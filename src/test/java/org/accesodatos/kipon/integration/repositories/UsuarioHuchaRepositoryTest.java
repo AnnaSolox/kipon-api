@@ -1,5 +1,9 @@
 package org.accesodatos.kipon.integration.repositories;
-import org.accesodatos.kipon.model.*;
+
+import org.accesodatos.kipon.model.Ahorro;
+import org.accesodatos.kipon.model.Hucha;
+import org.accesodatos.kipon.model.Usuario;
+import org.accesodatos.kipon.model.UsuarioHucha;
 import org.accesodatos.kipon.model.key.UsuarioHuchaKey;
 import org.accesodatos.kipon.repository.AhorroRepository;
 import org.accesodatos.kipon.repository.HuchaRepository;
@@ -18,7 +22,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;

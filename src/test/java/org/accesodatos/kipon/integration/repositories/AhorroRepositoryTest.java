@@ -1,17 +1,11 @@
 package org.accesodatos.kipon.integration.repositories;
+
 import org.accesodatos.kipon.model.Ahorro;
 import org.accesodatos.kipon.model.Hucha;
 import org.accesodatos.kipon.model.Usuario;
 import org.accesodatos.kipon.repository.AhorroRepository;
 import org.accesodatos.kipon.repository.HuchaRepository;
-import org.accesodatos.kipon.repository.UsuarioHuchaRepository;
 import org.accesodatos.kipon.repository.UsuarioRepository;
-import org.accesodatos.kipon.service.AhorroService;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +16,12 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.shaded.org.checkerframework.checker.units.qual.A;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @Testcontainers
 @DataJpaTest
