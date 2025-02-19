@@ -1,10 +1,8 @@
-package org.accesodatos.kipon.integration.controller;
+package org.accesodatos.kipon.integration.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.accesodatos.kipon.controller.HuchasRestController;
-import org.accesodatos.kipon.controller.UsuarioRestController;
 import org.accesodatos.kipon.dtos.request.create.AhorroCreateDTO;
 import org.accesodatos.kipon.dtos.request.create.HuchaCreateDTO;
 import org.accesodatos.kipon.dtos.request.create.UsuarioHuchaCreateDTO;
@@ -122,7 +120,7 @@ public class HuchasRestControllerTest {
 
     @Test
     void obtenerHuchasPorIdAdministrador_Exito() throws Exception {
-        //Prueba para GET /kipon/huchas/administrador/{id}
+        //Prueba para GET /kipon/huchas/administrador/{id} con datos válidos
 
         // GIVEN
         List<HuchaDTO> huchas = List.of(huchaDTO);
@@ -186,7 +184,7 @@ public class HuchasRestControllerTest {
 
     @Test
     void actualizarHuchaParcial_Exito() throws Exception {
-        //Prueba para PATCH /kipon/huchas/{1}
+        //Prueba para PATCH /kipon/huchas/{id}
 
         // GIVEN
         HuchaPatchDTO huchaPatchDTO = new HuchaPatchDTO();

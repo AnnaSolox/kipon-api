@@ -17,6 +17,7 @@ import org.accesodatos.kipon.repository.UsuarioRepository;
 import org.accesodatos.kipon.service.UsuarioHuchaService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;

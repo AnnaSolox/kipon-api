@@ -15,11 +15,13 @@ import org.accesodatos.kipon.mappers.UsuarioMapper;
 import org.accesodatos.kipon.model.Hucha;
 import org.accesodatos.kipon.model.Usuario;
 import org.accesodatos.kipon.model.UsuarioHucha;
+import org.accesodatos.kipon.model.key.UsuarioHuchaKey;
 import org.accesodatos.kipon.repository.HuchaRepository;
 import org.accesodatos.kipon.repository.UsuarioRepository;
 import org.accesodatos.kipon.service.HuchaService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -70,6 +72,24 @@ public class HuchaServiceImpl implements HuchaService {
         hucha.setCantidadTotal(0.0);
         hucha.setAdministrador(administrador);
         hucha.setFechaCreacion(LocalDateTime.now());
+        hucha.setUsuarios(new ArrayList<>());
+
+        huchaRepository.save(hucha);
+
+        //Creamos la asociación mediante la entidad UsuarioHucha
+        UsuarioHucha usuarioHucha = new UsuarioHucha();
+        UsuarioHuchaKey key = new UsuarioHuchaKey(administrador.getId(), hucha.getId());
+        usuarioHucha.setId(key);
+        usuarioHucha.setUsuario(administrador);
+        usuarioHucha.setHucha(hucha);
+        usuarioHucha.setRol("Administrador");
+        usuarioHucha.setFechaIngreso(LocalDate.now());
+
+        // Actualizamos ambas entidades
+        hucha.getUsuarios().add(usuarioHucha);
+        administrador.getHuchas().add(usuarioHucha);
+
+        usuarioRepository.save(administrador);
 
         Hucha huchaGuardada = huchaRepository.save(hucha);
 

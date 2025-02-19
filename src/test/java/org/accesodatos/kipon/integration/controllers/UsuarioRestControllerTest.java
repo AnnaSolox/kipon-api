@@ -1,4 +1,4 @@
-package org.accesodatos.kipon.integration.controller;
+package org.accesodatos.kipon.integration.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.accesodatos.kipon.controller.UsuarioRestController;

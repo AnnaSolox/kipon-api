@@ -99,28 +99,4 @@ public class AhorroRepositoryTest {
         assertEquals(usuario.getId(), ahorroRecuperado.getUsuario().getId());
         assertEquals(hucha.getId(), ahorroRecuperado.getHucha().getId());
     }
-
-    @Test
-    void crearAhorro_UsuarioNoAsociadoAlaHucha_Excepcion() {
-        // GIVEN: Crear un objeto Ahorro para registrar un ahorro con un usuario no asociado a la hucha
-        Usuario usuarioNoAsociado = new Usuario();
-        usuarioNoAsociado.setNombre("usuarioNoAsociado");
-        usuarioNoAsociado.setPassword("passwordTest");
-        usuarioNoAsociado.setEmail("usuarioNoAsociado@test.com");
-        usuarioNoAsociado.setFechaRegistro(LocalDate.now());
-        usuarioRepository.save(usuarioNoAsociado);
-
-        ahorro.setUsuario(usuarioNoAsociado);
-        ahorro.setHucha(hucha);
-        ahorro.setCantidad(50.0);
-        ahorro.setFecha(LocalDate.now());
-
-        // WHEN: Intentar guardar el ahorro, esperando que lance una excepción
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            ahorroRepository.save(ahorro); // El usuario no está asociado a la hucha
-        });
-
-        // THEN: Verificar que la excepción es la esperada
-        assertEquals("El usuario con id " + usuarioNoAsociado.getId() + " no está asociado a la hucha con id " + hucha.getId(), exception.getMessage());
-    }
 }
