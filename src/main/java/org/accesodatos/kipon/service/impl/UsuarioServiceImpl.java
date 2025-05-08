@@ -17,6 +17,7 @@ import org.accesodatos.kipon.mappers.UsuarioMapper;
 import org.accesodatos.kipon.model.Usuario;
 import org.accesodatos.kipon.repository.UsuarioRepository;
 import org.accesodatos.kipon.service.UsuarioService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final ObjectMapper objectMapper;
     private final Validator validator;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-    private static final String SECRET_KEY = "AqdHiaIoZZjRr4sR7atY";
+    @Value("${jwt.secret.key}")
+    private String secretKey;
 
     @Override
     public List<UsuarioDTO> obtenerTodosLosUsuarios() {
@@ -150,7 +152,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                 .subject(email)
                 .issuedAt(new Date())  // Fecha en que se emitió el token
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))  // 24 horas de expiración
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)  // Firma con la clave secreta
+                .signWith(SignatureAlgorithm.HS256, secretKey)  // Firma con la clave secreta
                 .compact();
     }
 
