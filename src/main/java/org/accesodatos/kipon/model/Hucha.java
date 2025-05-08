@@ -34,6 +34,9 @@ public class Hucha {
     @JoinColumn(name="id_administrador", nullable = false)
     private Usuario administrador;
 
+    @Column(name = "foto_Hucha")
+    private String fotoHucha;
+
     @OneToMany(mappedBy = "hucha", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ahorro> ahorros;
 

@@ -18,6 +18,9 @@ public class Perfil {
     private String telefono;
     private String direccion;
 
+    @Column(name = "foto_perfil")
+    private String fotoPerfil;
+
     @OneToOne (fetch = FetchType.EAGER)
     @MapsId
     @JoinColumn(name="id_usuario", nullable = false, unique = true)

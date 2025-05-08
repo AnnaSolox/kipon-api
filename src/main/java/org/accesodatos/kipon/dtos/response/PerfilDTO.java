@@ -8,4 +8,5 @@ public class PerfilDTO {
     private String nombreCompleto;
     private String telefono;
     private String direccion;
+    private String fotoPerfil;
 }

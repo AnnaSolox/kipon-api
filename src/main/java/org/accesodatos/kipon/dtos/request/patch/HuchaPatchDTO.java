@@ -17,4 +17,6 @@ public class HuchaPatchDTO {
     private LocalDate fechaObjetivo;
 
     private Long idAdministrador;
+
+    private String fotoHucha;
 }

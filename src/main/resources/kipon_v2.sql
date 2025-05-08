@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS Perfil (
     nombre_completo VARCHAR(100) NOT NULL,
     telefono VARCHAR(15) UNIQUE,
     direccion TEXT,
+    foto_perfil TEXT DEFAULT NULL,
     FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario) ON DELETE CASCADE
 );
 -- Crear la tabla Hucha
@@ -41,7 +42,8 @@ CREATE TABLE IF NOT EXISTS Hucha (
     cantidad_total DECIMAL(10, 2) DEFAULT 0.00 CHECK (cantidad_total >= 0.00),
     objetivo_ahorro DECIMAL(10, 2) DEFAULT 0.00 CHECK (objetivo_ahorro >= 0.00),
     fecha_creacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    fecha_objetivo DATE DEFAULT NULL,  
+    fecha_objetivo DATE DEFAULT NULL,
+    foto_hucha TEXT DEFAULT NULL,
     FOREIGN KEY (id_administrador) REFERENCES Usuario(id_usuario)
         ON DELETE RESTRICT
         ON UPDATE CASCADE

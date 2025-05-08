@@ -15,5 +15,6 @@ public class HuchaDTO {
     private LocalDateTime fechaCreacion;
     private LocalDate fechaObjetivo;
     private String administrador;
+    private String fotoHucha;
     private List<AhorroDTO> ahorros;
 }

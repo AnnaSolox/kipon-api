@@ -18,4 +18,6 @@ public class PerfilCreateDTO {
     @NotBlank(message = "La dirección no puede estar vacía")
     @Size(max = 50, message = "La dirección no puede superar los 50 caracteres")
     private String direccion;
+
+    private String fotoPerfil;
 }

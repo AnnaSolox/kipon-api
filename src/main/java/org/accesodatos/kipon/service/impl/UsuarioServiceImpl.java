@@ -77,6 +77,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         usuarioMapper.updateEntityFromDTO(dto, usuarioExistente);
 
+        if (Optional.ofNullable(usuarioExistente.getPerfil().getFotoPerfil()).orElse("").isEmpty()) {
+            usuarioExistente.getPerfil().setFotoPerfil(null);
+        }
+
         //Sincronizar relación bidireccional
         usuarioExistente.getPerfil().setUsuario(usuarioExistente);
 
@@ -113,6 +117,10 @@ public class UsuarioServiceImpl implements UsuarioService {
         // Actualizar la entidad existente con los cambios del DTO PATCH
         usuarioMapper.updateEntityFromPatchDTO(usuarioPatchDTO, usuarioExistente);
 
+        if (Optional.ofNullable(usuarioExistente.getPerfil().getFotoPerfil()).orElse("").isEmpty()) {
+            usuarioExistente.getPerfil().setFotoPerfil(null);
+        }
+
         // Sincronizar la relación bidireccional
         usuarioExistente.getPerfil().setUsuario(usuarioExistente);
 
@@ -139,9 +147,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public String generarToken(String email) {
         return Jwts.builder()
-                .setSubject(email)
-                .setIssuedAt(new Date())  // Fecha en que se emitió el token
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))  // 24 horas de expiración
+                .subject(email)
+                .issuedAt(new Date())  // Fecha en que se emitió el token
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))  // 24 horas de expiración
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)  // Firma con la clave secreta
                 .compact();
     }

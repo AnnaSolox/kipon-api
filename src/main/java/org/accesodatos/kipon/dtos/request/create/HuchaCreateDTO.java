@@ -22,4 +22,6 @@ public class HuchaCreateDTO {
 
     @NotNull(message = "El ID del administrador es obligatorio")
     private Long idAdministrador;
+
+    private String fotoHucha;
 }
