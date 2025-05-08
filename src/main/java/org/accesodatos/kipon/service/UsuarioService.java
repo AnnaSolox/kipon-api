@@ -13,5 +13,7 @@ public interface UsuarioService {
     UsuarioDTO crearUsuario(UsuarioCreateDTO dto);
     UsuarioDTO actualizarUsuario(Long id, UsuarioUpdateDTO dto);
     UsuarioDTO actualizarUsuarioParcial(Long id, JsonNode patch);
+    UsuarioDTO loguearUsuario(String email, String password);
+    String generarToken (String email);
     void eliminarUsuario(Long id);
 }

@@ -2,6 +2,8 @@ package org.accesodatos.kipon.service.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -29,6 +31,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final ObjectMapper objectMapper;
     private final Validator validator;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    private static final String SECRET_KEY = "AqdHiaIoZZjRr4sR7atY";
 
     @Override
     public List<UsuarioDTO> obtenerTodosLosUsuarios() {
@@ -131,5 +134,27 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
 
         usuarioRepository.delete(usuario);
+    }
+
+    @Override
+    public String generarToken(String email) {
+        return Jwts.builder()
+                .setSubject(email)
+                .setIssuedAt(new Date())  // Fecha en que se emitió el token
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))  // 24 horas de expiración
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)  // Firma con la clave secreta
+                .compact();
+    }
+
+    @Override
+    public UsuarioDTO loguearUsuario (String email, String password) {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new NoSuchElementException("Usuario con email " + email + " no encontrado"));
+
+        if (!encoder.matches(password, usuario.getPassword())){
+            throw new IllegalArgumentException("Contraseña incorrecta");
+        }
+
+        return usuarioMapper.toDTO(usuario);
     }
 }

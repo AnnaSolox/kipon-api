@@ -6,11 +6,13 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.accesodatos.kipon.dtos.request.create.LoginDTO;
 import org.accesodatos.kipon.dtos.request.create.UsuarioCreateDTO;
 import org.accesodatos.kipon.dtos.request.patch.UsuarioPatchDTO;
 import org.accesodatos.kipon.dtos.request.update.UsuarioUpdateDTO;
 import org.accesodatos.kipon.dtos.response.UsuarioDTO;
 import org.accesodatos.kipon.service.UsuarioService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,12 +37,24 @@ public class UsuarioRestController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Obtiene un usuario por su ID")
-    public ResponseEntity<UsuarioDTO> obtenerUsuariosPorId(@PathVariable Long id){
+    public ResponseEntity<UsuarioDTO> obtenerUsuariosPorId(@PathVariable Long id) {
         UsuarioDTO usuario = usuarioService.obtenerUsuarioPorId(id);
         if (usuario == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok(usuario);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UsuarioDTO> login(@RequestBody LoginDTO loginDTO) {
+        try {
+            UsuarioDTO usuarioDTO = usuarioService.loguearUsuario(loginDTO.getEmail(), loginDTO.getPassword());
+            String token = usuarioService.generarToken(loginDTO.getEmail());
+            return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.AUTHORIZATION, "Bearer " + token).body(usuarioDTO);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
     }
 
     @PostMapping
@@ -52,7 +66,7 @@ public class UsuarioRestController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Modifica los datos de un usuario")
-    public ResponseEntity<UsuarioDTO> actualizarUsuario(@PathVariable Long id, @Valid @RequestBody UsuarioUpdateDTO dto){
+    public ResponseEntity<UsuarioDTO> actualizarUsuario(@PathVariable Long id, @Valid @RequestBody UsuarioUpdateDTO dto) {
         UsuarioDTO usuarioActualizado = usuarioService.actualizarUsuario(id, dto);
         return ResponseEntity.ok(usuarioActualizado);
     }
@@ -63,7 +77,7 @@ public class UsuarioRestController {
             description = "JSON con los datos del usuario a modificar. Todos los campos son opcionales.",
             content = @Content(schema = @Schema(implementation = UsuarioPatchDTO.class))
     )
-    public ResponseEntity<UsuarioDTO> actualizarUsuarioParcial(@PathVariable Long id, @RequestBody JsonNode patch){
+    public ResponseEntity<UsuarioDTO> actualizarUsuarioParcial(@PathVariable Long id, @RequestBody JsonNode patch) {
         UsuarioDTO usuarioActualizado = usuarioService.actualizarUsuarioParcial(id, patch);
         return ResponseEntity.ok(usuarioActualizado);
     }
