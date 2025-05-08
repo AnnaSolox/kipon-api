@@ -15,6 +15,7 @@ import org.accesodatos.kipon.mappers.UsuarioMapper;
 import org.accesodatos.kipon.model.Usuario;
 import org.accesodatos.kipon.repository.UsuarioRepository;
 import org.accesodatos.kipon.service.UsuarioService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -27,6 +28,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final UsuarioMapper usuarioMapper;
     private final ObjectMapper objectMapper;
     private final Validator validator;
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Override
     public List<UsuarioDTO> obtenerTodosLosUsuarios() {
@@ -52,6 +54,10 @@ public class UsuarioServiceImpl implements UsuarioService {
         if(dto.getFechaRegistro() == null) {
             usuario.setFechaRegistro(LocalDate.now());
         }
+
+        //Hashear contraseña
+        String hashedPassword = encoder.encode(usuario.getPassword());
+        usuario.setPassword(hashedPassword);
 
         //Sincronizar relación bidireccional
         usuario.getPerfil().setUsuario(usuario);
