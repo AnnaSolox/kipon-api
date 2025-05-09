@@ -32,6 +32,7 @@
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
         <org.springdoc.version>2.8.4</org.springdoc.version>
         <spring-security.version>6.4.5</spring-security.version>
+        <jwt-jsonwebtoken.version>0.12.6</jwt-jsonwebtoken.version>
     </properties>
     <dependencies>
         <dependency>
@@ -83,11 +84,25 @@
             <artifactId>mapstruct</artifactId>
             <version>${org.mapstruct.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
+        <!-- JJWT API -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>0.12.6</version>
+            <artifactId>jjwt-api</artifactId>
+            <version>${jwt-jsonwebtoken.version}</version>
+        </dependency>
+
+        <!-- JJWT Implementation -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>${jwt-jsonwebtoken.version}</version>
+        </dependency>
+
+        <!-- JJWT Jackson Support -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>${jwt-jsonwebtoken.version}</version>
         </dependency>
         <!-- TestContainers -->
         <dependency>

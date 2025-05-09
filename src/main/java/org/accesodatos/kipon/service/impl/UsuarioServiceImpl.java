@@ -2,8 +2,6 @@ package org.accesodatos.kipon.service.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -17,8 +15,11 @@ import org.accesodatos.kipon.mappers.UsuarioMapper;
 import org.accesodatos.kipon.model.Usuario;
 import org.accesodatos.kipon.repository.UsuarioRepository;
 import org.accesodatos.kipon.service.UsuarioService;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -31,9 +32,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final UsuarioMapper usuarioMapper;
     private final ObjectMapper objectMapper;
     private final Validator validator;
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-    @Value("${jwt.secret.key}")
-    private String secretKey;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<UsuarioDTO> obtenerTodosLosUsuarios() {
@@ -61,7 +62,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
 
         //Hashear contraseña
-        String hashedPassword = encoder.encode(usuario.getPassword());
+        String hashedPassword = passwordEncoder.encode(usuario.getPassword());
         usuario.setPassword(hashedPassword);
 
         //Sincronizar relación bidireccional
@@ -147,24 +148,13 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public String generarToken(String email) {
-        return Jwts.builder()
-                .subject(email)
-                .issuedAt(new Date())  // Fecha en que se emitió el token
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))  // 24 horas de expiración
-                .signWith(SignatureAlgorithm.HS256, secretKey)  // Firma con la clave secreta
-                .compact();
-    }
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Usuario con email no " +
+                "encontrado"));
 
-    @Override
-    public UsuarioDTO loguearUsuario (String email, String password) {
-        Usuario usuario = usuarioRepository.findByEmail(email)
-                .orElseThrow(() -> new NoSuchElementException("Usuario con email " + email + " no encontrado"));
-
-        if (!encoder.matches(password, usuario.getPassword())){
-            throw new IllegalArgumentException("Contraseña incorrecta");
-        }
-
-        return usuarioMapper.toDTO(usuario);
+        return User.builder()
+                .username(usuario.getEmail())
+                .password(usuario.getPassword())
+                .build();
     }
 }
