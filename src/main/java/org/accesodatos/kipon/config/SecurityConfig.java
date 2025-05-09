@@ -30,7 +30,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/kipon/auth/login","/kipon/auth/register").permitAll()
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/kipon/auth/login","/kipon/auth/register").permitAll()
                         .anyRequest().authenticated()
                 );
 

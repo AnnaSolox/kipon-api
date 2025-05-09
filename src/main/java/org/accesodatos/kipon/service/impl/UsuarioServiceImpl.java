@@ -12,10 +12,14 @@ import org.accesodatos.kipon.dtos.request.patch.UsuarioPatchDTO;
 import org.accesodatos.kipon.dtos.request.update.UsuarioUpdateDTO;
 import org.accesodatos.kipon.dtos.response.UsuarioDTO;
 import org.accesodatos.kipon.mappers.UsuarioMapper;
+import org.accesodatos.kipon.model.Hucha;
 import org.accesodatos.kipon.model.Usuario;
+import org.accesodatos.kipon.repository.HuchaRepository;
 import org.accesodatos.kipon.repository.UsuarioRepository;
 import org.accesodatos.kipon.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,6 +28,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +40,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private HuchaRepository huchaRepository;
 
     @Override
     public List<UsuarioDTO> obtenerTodosLosUsuarios() {
@@ -57,7 +64,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     public UsuarioDTO crearUsuario(UsuarioCreateDTO dto) {
         Usuario usuario = usuarioMapper.toEntity(dto);
 
-        if(dto.getFechaRegistro() == null) {
+        if (dto.getFechaRegistro() == null) {
             usuario.setFechaRegistro(LocalDate.now());
         }
 
@@ -100,10 +107,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         UsuarioPatchDTO usuarioPatchDTO = objectMapper.convertValue(patch, UsuarioPatchDTO.class);
 
-        try{
+        try {
             objectMapper.readerForUpdating(usuarioPatchDTO).readValue(patch);
-        } catch (Exception e){
-            throw  new IllegalArgumentException("Error al procesar el JSON: " + e.getMessage());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error al procesar el JSON: " + e.getMessage());
         }
 
         System.out.println("usuarioPatchDTO = " + usuarioPatchDTO);
@@ -152,9 +159,14 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Usuario con email no " +
                 "encontrado"));
 
+        List<Hucha> huchasAdmin = huchaRepository.findByAdministradorId(usuario.getId());
+        List<GrantedAuthority> authorities =
+                huchasAdmin.stream().map(hucha -> new SimpleGrantedAuthority("ADMIN_" + hucha.getId())).collect(Collectors.toList());
+
         return User.builder()
                 .username(usuario.getEmail())
                 .password(usuario.getPassword())
+                .authorities(authorities)
                 .build();
     }
 }
