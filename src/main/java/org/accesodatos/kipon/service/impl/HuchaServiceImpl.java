@@ -18,14 +18,15 @@ import org.accesodatos.kipon.model.key.UsuarioHuchaKey;
 import org.accesodatos.kipon.repository.HuchaRepository;
 import org.accesodatos.kipon.repository.UsuarioRepository;
 import org.accesodatos.kipon.service.HuchaService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+
+import static org.accesodatos.kipon.config.SecurityUtils.esAdministradorDeHucha;
+import static org.accesodatos.kipon.config.SecurityUtils.obtenerEmailUsuarioDesdeContexto;
 
 @Service
 @RequiredArgsConstructor
@@ -66,8 +67,11 @@ public class HuchaServiceImpl implements HuchaService {
     @Override
     @Transactional
     public HuchaDTO crearHucha(HuchaCreateDTO dto) {
-        Usuario administrador = usuarioRepository.findById(dto.getIdAdministrador())
-                .orElseThrow(() -> new NoSuchElementException("Usuario con id " + dto.getIdAdministrador() + " no encontrado"));
+        String emailAutenticado = obtenerEmailUsuarioDesdeContexto();
+
+        Usuario administrador = usuarioRepository.findByEmail(emailAutenticado)
+                .orElseThrow(() -> new NoSuchElementException("Usuario con email" + dto.getIdAdministrador() + " no " +
+                        "encontrado"));
 
         if(administrador.getHuchas() == null){
             administrador.setHuchas(new ArrayList<>());
@@ -108,7 +112,7 @@ public class HuchaServiceImpl implements HuchaService {
 
         String emailUsuario = obtenerEmailUsuarioDesdeContexto();
         if (!esAdministradorDeHucha(huchaExistente, emailUsuario)) {
-            throw new IllegalStateException("No tienes permisos para editar esta hucha");
+            throw new AccessDeniedException("No tienes permisos para editar esta hucha");
         }
 
         HuchaPatchDTO huchaPatchDTO = objectMapper.convertValue(patch, HuchaPatchDTO.class);
@@ -185,25 +189,9 @@ public class HuchaServiceImpl implements HuchaService {
 
         String emailUsuario = obtenerEmailUsuarioDesdeContexto();
         if (!esAdministradorDeHucha(hucha, emailUsuario)) {
-            throw new IllegalStateException("No tienes permisos para editar esta hucha");
+            throw new AccessDeniedException("No tienes permisos para editar esta hucha");
         }
 
         huchaRepository.delete(hucha);
-    }
-
-    // Método para obtener el email del usuario desde el contexto de seguridad
-    private String obtenerEmailUsuarioDesdeContexto() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof Usuario) {
-            // Aquí se asume que UsuarioPrincipal tiene el email
-            return ((Usuario) authentication.getPrincipal()).getEmail();
-        }
-        return null; // O lanzar una excepción si no está autenticado
-    }
-
-    // Método para verificar si el usuario es administrador de la hucha
-    private boolean esAdministradorDeHucha(Hucha hucha, String emailUsuario) {
-        return hucha.getUsuarios().stream()
-                .anyMatch(usuarioHucha -> usuarioHucha.getUsuario().getEmail().equals(emailUsuario) && "Administrador".equals(usuarioHucha.getRol()));
     }
 }

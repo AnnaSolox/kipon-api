@@ -18,6 +18,7 @@ import org.accesodatos.kipon.repository.HuchaRepository;
 import org.accesodatos.kipon.repository.UsuarioRepository;
 import org.accesodatos.kipon.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -29,6 +30,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.accesodatos.kipon.config.SecurityUtils.obtenerEmailUsuarioDesdeContexto;
 
 @Service
 @RequiredArgsConstructor
@@ -85,6 +88,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuarioExistente = usuarioRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Usuario no encontrado con id: " + id));
 
+        String emailAutenticado = obtenerEmailUsuarioDesdeContexto();
+        if (!usuarioExistente.getEmail().equals(emailAutenticado)) {
+            throw new AccessDeniedException("No tienes permiso para eliminar este usuario.");
+        }
+
         usuarioMapper.updateEntityFromDTO(dto, usuarioExistente);
 
         if (Optional.ofNullable(usuarioExistente.getPerfil().getFotoPerfil()).orElse("").isEmpty()) {
@@ -104,6 +112,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     public UsuarioDTO actualizarUsuarioParcial(Long id, JsonNode patch) {
         Usuario usuarioExistente = usuarioRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Usuario no encontrado con id: " + id));
+
+        String emailAutenticado = obtenerEmailUsuarioDesdeContexto();
+        if (!usuarioExistente.getEmail().equals(emailAutenticado)) {
+            throw new AccessDeniedException("No tienes permiso para eliminar este usuario.");
+        }
 
         UsuarioPatchDTO usuarioPatchDTO = objectMapper.convertValue(patch, UsuarioPatchDTO.class);
 
@@ -145,6 +158,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     public void eliminarUsuario(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("El usuario con ID " + id + "no existe."));
+
+        String emailAutenticado = obtenerEmailUsuarioDesdeContexto();
+        if (!usuario.getEmail().equals(emailAutenticado)) {
+            throw new AccessDeniedException("No tienes permiso para eliminar este usuario.");
+        }
 
         //Verificar que no tiene huchas asociadas
         if (!usuario.getHuchas().isEmpty()) {

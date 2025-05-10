@@ -9,9 +9,12 @@ import lombok.RequiredArgsConstructor;
 import org.accesodatos.kipon.dtos.request.patch.UsuarioPatchDTO;
 import org.accesodatos.kipon.dtos.request.update.UsuarioUpdateDTO;
 import org.accesodatos.kipon.dtos.response.UsuarioDTO;
+import org.accesodatos.kipon.model.Usuario;
 import org.accesodatos.kipon.service.UsuarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,6 +59,9 @@ public class UsuarioRestController {
             content = @Content(schema = @Schema(implementation = UsuarioPatchDTO.class))
     )
     public ResponseEntity<UsuarioDTO> actualizarUsuarioParcial(@PathVariable Long id, @RequestBody JsonNode patch) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("Principal class: " + auth.getPrincipal().getClass());
+        System.out.println("ID usuario autenticado: " + ((Usuario)auth.getPrincipal()).getId());
         UsuarioDTO usuarioActualizado = usuarioService.actualizarUsuarioParcial(id, patch);
         return ResponseEntity.ok(usuarioActualizado);
     }

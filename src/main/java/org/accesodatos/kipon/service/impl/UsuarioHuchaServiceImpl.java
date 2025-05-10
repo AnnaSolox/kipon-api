@@ -5,22 +5,25 @@ import lombok.RequiredArgsConstructor;
 import org.accesodatos.kipon.dtos.request.create.UsuarioHuchaCreateDTO;
 import org.accesodatos.kipon.dtos.response.UsuarioDTO;
 import org.accesodatos.kipon.mappers.UsuarioMapper;
-import org.accesodatos.kipon.model.Hucha;
 import org.accesodatos.kipon.model.Ahorro;
+import org.accesodatos.kipon.model.Hucha;
 import org.accesodatos.kipon.model.Usuario;
 import org.accesodatos.kipon.model.UsuarioHucha;
 import org.accesodatos.kipon.model.key.UsuarioHuchaKey;
-import org.accesodatos.kipon.repository.HuchaRepository;
 import org.accesodatos.kipon.repository.AhorroRepository;
+import org.accesodatos.kipon.repository.HuchaRepository;
 import org.accesodatos.kipon.repository.UsuarioHuchaRepository;
 import org.accesodatos.kipon.repository.UsuarioRepository;
 import org.accesodatos.kipon.service.UsuarioHuchaService;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+
+import static org.accesodatos.kipon.config.SecurityUtils.esAdministradorDeHucha;
+import static org.accesodatos.kipon.config.SecurityUtils.obtenerEmailUsuarioDesdeContexto;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +42,11 @@ public class UsuarioHuchaServiceImpl implements UsuarioHuchaService {
 
         Hucha hucha = huchaRepository.findById(dto.getIdHucha())
                 .orElseThrow(() -> new NoSuchElementException("Hucha no encontrada con id: " + dto.getIdHucha()));
+
+        String emailUsuario = obtenerEmailUsuarioDesdeContexto();
+        if (!esAdministradorDeHucha(hucha, emailUsuario)) {
+            throw new AccessDeniedException("No tienes permisos para añadir usuarios esta hucha");
+        }
 
         // Verificar si el usuario ya está asociado a la hucha
         Optional<UsuarioHucha> usuarioHuchaExistente = usuarioHuchaRepository.findByUsuarioIdAndHuchaId(
