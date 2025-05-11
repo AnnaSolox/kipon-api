@@ -45,7 +45,7 @@ public class UsuarioRestController {
         return ResponseEntity.ok(usuario);
     }
 
-    @GetMapping("/{nombreUsuario}")
+    @GetMapping("/nombre/{nombreUsuario}")
     @Operation(summary = "Obtiene un usuario por su nombre de usuario")
     public ResponseEntity<UsuarioDTO> obtenerUsuarioPorNombre(@PathVariable String nombreUsuario) {
         UsuarioDTO usuario = usuarioService.obtenerUsuarioPorNombreUsuario(nombreUsuario);
