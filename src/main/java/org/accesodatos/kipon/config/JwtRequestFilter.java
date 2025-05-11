@@ -33,17 +33,17 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String token = authorizationHeader.substring(7);
-            String email;
+            String userName;
 
             try {
-                email = jwtService.extraerEmail(token);
+                userName = jwtService.extraerUsername(token);
             } catch (JwtException e) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token inválido");
                 return;
             }
 
-            Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException(
-                    "Usuario con email " + email + " no encontrado."));
+            Usuario usuario = usuarioRepository.findByNombre(userName).orElseThrow(() -> new NoSuchElementException(
+                    "Usuario con nombre de usuario " + userName + " no encontrado."));
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                     usuario, null, new ArrayList<>());

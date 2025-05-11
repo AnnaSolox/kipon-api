@@ -75,7 +75,6 @@ public class HuchaServiceTest {
         huchaCreateDTO.setNombre("Hucha de Ahorro");
         huchaCreateDTO.setObjetivoAhorro(500.0);
         huchaCreateDTO.setFechaObjetivo(LocalDate.now().plusMonths(6));
-        huchaCreateDTO.setIdAdministrador(1L);
 
         // Crear un HuchaPatchDTO
         huchaPatchDTO = new HuchaPatchDTO();

@@ -45,6 +45,16 @@ public class UsuarioRestController {
         return ResponseEntity.ok(usuario);
     }
 
+    @GetMapping("/{nombreUsuario}")
+    @Operation(summary = "Obtiene un usuario por su nombre de usuario")
+    public ResponseEntity<UsuarioDTO> obtenerUsuarioPorNombre(@PathVariable String nombreUsuario) {
+        UsuarioDTO usuario = usuarioService.obtenerUsuarioPorNombreUsuario(nombreUsuario);
+        if (usuario == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(usuario);
+    }
+
     @PutMapping("/{id}")
     @Operation(summary = "Modifica los datos de un usuario")
     public ResponseEntity<UsuarioDTO> actualizarUsuario(@PathVariable Long id, @Valid @RequestBody UsuarioUpdateDTO dto) {

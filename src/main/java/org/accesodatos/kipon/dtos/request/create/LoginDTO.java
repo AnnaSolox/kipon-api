@@ -8,7 +8,7 @@ import lombok.Data;
 public class LoginDTO {
     @NotBlank(message = "El email no puede estar vacío")
     @Email(message = "El formato del email es inválido")
-    private String email;
+    private String userName;
 
     @NotBlank(message = "La contraseña no puede estar vacía")
     private String password;

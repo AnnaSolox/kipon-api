@@ -70,7 +70,7 @@ public class HuchaServiceImpl implements HuchaService {
         String emailAutenticado = obtenerEmailUsuarioDesdeContexto();
 
         Usuario administrador = usuarioRepository.findByEmail(emailAutenticado)
-                .orElseThrow(() -> new NoSuchElementException("Usuario con email" + dto.getIdAdministrador() + " no " +
+                .orElseThrow(() -> new NoSuchElementException("Usuario con email" + emailAutenticado + " no " +
                         "encontrado"));
 
         if(administrador.getHuchas() == null){

@@ -63,6 +63,13 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    public UsuarioDTO obtenerUsuarioPorNombreUsuario(String nombreUsuario){
+        Usuario usuario = usuarioRepository.findByNombre(nombreUsuario)
+                .orElseThrow(() -> new NoSuchElementException("Usuario con nombre " + nombreUsuario + " no encontrado"));
+        return usuarioMapper.toDTO(usuario);
+    }
+
+    @Override
     @Transactional
     public UsuarioDTO crearUsuario(UsuarioCreateDTO dto) {
         Usuario usuario = usuarioMapper.toEntity(dto);
@@ -93,7 +100,12 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new AccessDeniedException("No tienes permiso para eliminar este usuario.");
         }
 
+        //Hashear contraseña
+        String hashedPassword = passwordEncoder.encode(dto.getPassword());
+        dto.setPassword(hashedPassword);
+
         usuarioMapper.updateEntityFromDTO(dto, usuarioExistente);
+
 
         if (Optional.ofNullable(usuarioExistente.getPerfil().getFotoPerfil()).orElse("").isEmpty()) {
             usuarioExistente.getPerfil().setFotoPerfil(null);
@@ -137,6 +149,14 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new ConstraintViolationException(errores.toString(), violations);
         }
 
+        // Verificar si el campo "password" está presente en el patch
+        if (patch.has("password") && (!patch.get("password").asText().isEmpty() || !patch.get("password").asText().isBlank())) {
+            String nuevaPassword = patch.get("password").asText();
+            String passwordHasheada = passwordEncoder.encode(nuevaPassword);
+
+            usuarioPatchDTO.setPassword(passwordHasheada);
+        }
+
         // Actualizar la entidad existente con los cambios del DTO PATCH
         usuarioMapper.updateEntityFromPatchDTO(usuarioPatchDTO, usuarioExistente);
 
@@ -173,8 +193,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Usuario con email no " +
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        Usuario usuario = usuarioRepository.findByNombre(userName).orElseThrow(() -> new UsernameNotFoundException(
+                "Usuario no " +
                 "encontrado"));
 
         List<Hucha> huchasAdmin = huchaRepository.findByAdministradorId(usuario.getId());

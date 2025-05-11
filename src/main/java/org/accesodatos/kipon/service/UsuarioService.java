@@ -13,6 +13,7 @@ import java.util.List;
 public interface UsuarioService extends UserDetailsService {
     List<UsuarioDTO> obtenerTodosLosUsuarios();
     UsuarioDTO obtenerUsuarioPorId(Long id);
+    UsuarioDTO obtenerUsuarioPorNombreUsuario(String nombreUsuario);
     UsuarioDTO crearUsuario(UsuarioCreateDTO dto);
     UsuarioDTO actualizarUsuario(Long id, UsuarioUpdateDTO dto);
     UsuarioDTO actualizarUsuarioParcial(Long id, JsonNode patch);

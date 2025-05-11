@@ -62,7 +62,6 @@ public class HuchasRestControllerTest {
         huchaCreateDTO.setNombre("HuchaTest");
         huchaCreateDTO.setObjetivoAhorro(1000.0);
         huchaCreateDTO.setFechaObjetivo(LocalDate.now().plusMonths(3));
-        huchaCreateDTO.setIdAdministrador(1L);
 
         huchaDTO = new HuchaDTO();
         huchaDTO.setId(1L);

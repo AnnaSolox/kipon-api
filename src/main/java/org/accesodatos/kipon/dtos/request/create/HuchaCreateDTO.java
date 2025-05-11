@@ -20,7 +20,5 @@ public class HuchaCreateDTO {
 
     private LocalDate fechaObjetivo;
 
-    private Long idAdministrador;
-
     private String fotoHucha;
 }

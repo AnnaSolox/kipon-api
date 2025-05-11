@@ -35,17 +35,16 @@ public class AuthRestController {
     @PostMapping("/login")
     @Operation(summary = "Inicio de sesión de un usuario")
     public ResponseEntity<String> loguearUsuario(@RequestBody LoginDTO loginDTO) {
-        System.out.println("Login Request - Email: " + loginDTO.getEmail() + ", Password: " + loginDTO.getPassword());
+        System.out.println("Login Request - Username: " + loginDTO.getUserName() + ", Password: " + loginDTO.getPassword());
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
-            String token = jwtService.generateToken(loginDTO.getEmail());
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUserName(), loginDTO.getPassword()));
+            String token = jwtService.generateToken(loginDTO.getUserName());
             return ResponseEntity.ok(token);
         } catch (BadCredentialsException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Correo o contraseña incorrectos");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Nombre de usuario o contraseña incorrectos");
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al autenticar el usuario");
         }
-
     }
 
     @PostMapping("/register")
