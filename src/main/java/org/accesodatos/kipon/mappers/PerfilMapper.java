@@ -5,10 +5,7 @@ import org.accesodatos.kipon.dtos.request.patch.PerfilPatchDTO;
 import org.accesodatos.kipon.dtos.request.update.PerfilUpdateDTO;
 import org.accesodatos.kipon.dtos.response.PerfilDTO;
 import org.accesodatos.kipon.model.Perfil;
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface PerfilMapper {

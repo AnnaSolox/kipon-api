@@ -11,4 +11,5 @@ public class HuchaSimpleDTO {
     private LocalDate fechaObjetivo;
     private Double cantidadTotal;
     private Double objetivoAhorro;
+    private String fotoHucha;
 }

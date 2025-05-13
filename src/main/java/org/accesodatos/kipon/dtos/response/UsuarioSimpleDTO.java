@@ -6,4 +6,5 @@ import lombok.Data;
 public class UsuarioSimpleDTO {
     private Long id;
     private String nombre;
+    private String foto;
 }

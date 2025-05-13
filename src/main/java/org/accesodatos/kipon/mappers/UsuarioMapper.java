@@ -4,17 +4,19 @@ import org.accesodatos.kipon.dtos.request.create.UsuarioCreateDTO;
 import org.accesodatos.kipon.dtos.request.patch.UsuarioPatchDTO;
 import org.accesodatos.kipon.dtos.request.update.UsuarioUpdateDTO;
 import org.accesodatos.kipon.dtos.response.UsuarioDTO;
+import org.accesodatos.kipon.dtos.response.UsuarioSimpleDTO;
 import org.accesodatos.kipon.model.Usuario;
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 
-@Mapper(componentModel = "spring", uses = {UsuarioHuchaMapper.class, PerfilMapper.class})
+@Mapper(componentModel = "spring", uses = {PerfilMapper.class})
 public interface UsuarioMapper {
+
     UsuarioDTO toDTO(Usuario usuario);
 
     Usuario toEntity (UsuarioCreateDTO dto);
+
+    @Mapping(source = "perfil.fotoPerfil", target = "foto")
+    UsuarioSimpleDTO toSimpleDTO(Usuario usuario);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntityFromDTO(UsuarioUpdateDTO dto, @MappingTarget Usuario usuario);
