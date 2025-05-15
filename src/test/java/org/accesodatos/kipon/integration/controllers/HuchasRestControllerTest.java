@@ -224,7 +224,7 @@ public class HuchasRestControllerTest {
 
         AhorroDTO ahorroDTO = new AhorroDTO();
         ahorroDTO.setId(1L);
-        ahorroDTO.setUsuario("usuarioTest");
+        ahorroDTO.setNombreUsuario("usuarioTest");
         ahorroDTO.setCantidad(200.0);
 
         when(ahorroService.crearAhorro(eq(1L), any(AhorroCreateDTO.class))).thenReturn(ahorroDTO);

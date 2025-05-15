@@ -13,4 +13,5 @@ public class UsuarioDTO {
     private LocalDate fechaRegistro;
     private PerfilDTO perfil;
     private List<HuchaRolDTO> huchas;
+    private List<AhorroDTO> ahorros;
 }

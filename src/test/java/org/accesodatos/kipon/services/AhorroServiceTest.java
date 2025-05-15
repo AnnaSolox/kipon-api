@@ -92,7 +92,7 @@ public class AhorroServiceTest {
         ahorroDTO.setId(100L);
         ahorroDTO.setCantidad(50.0);
         ahorroDTO.setFecha(LocalDate.now());
-        ahorroDTO.setUsuario(usuario.getNombre());
+        ahorroDTO.setNombreUsuario(usuario.getNombre());
 
         usuarioHucha = new UsuarioHucha();
         usuarioHucha.setUsuario(usuario);

@@ -8,7 +8,7 @@ import org.accesodatos.kipon.dtos.response.UsuarioSimpleDTO;
 import org.accesodatos.kipon.model.Usuario;
 import org.mapstruct.*;
 
-@Mapper(componentModel = "spring", uses = {PerfilMapper.class})
+@Mapper(componentModel = "spring", uses = {PerfilMapper.class, AhorroMapper.class})
 public interface UsuarioMapper {
 
     UsuarioDTO toDTO(Usuario usuario);
