@@ -10,4 +10,5 @@ public class AhorroDTO {
     private String usuario;
     private Double cantidad;
     private LocalDate fecha;
+    private String foto;
 }

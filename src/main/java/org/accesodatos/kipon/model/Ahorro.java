@@ -24,5 +24,4 @@ public class Ahorro {
     @ManyToOne
     @JoinColumn(name ="id_hucha", nullable = false)
     private Hucha hucha;
-
 }
