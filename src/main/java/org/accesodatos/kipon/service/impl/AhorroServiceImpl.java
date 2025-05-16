@@ -49,7 +49,9 @@ public class AhorroServiceImpl implements AhorroService {
         ahorro.setUsuario(usuario);
         ahorro.setFecha(LocalDate.now());
 
-        hucha.setCantidadTotal(hucha.getCantidadTotal() + ahorro.getCantidad());
+        Double saldoPosterior = hucha.getCantidadTotal() + (ahorro.getCantidad());
+        ahorro.setCantidadPosterior(saldoPosterior);
+        hucha.setCantidadTotal(saldoPosterior);
 
         ahorroRepository.save(ahorro);
         huchaRepository.save(hucha);

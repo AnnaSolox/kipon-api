@@ -12,7 +12,7 @@ public class AhorroDTO {
     private String nombreUsuario;
     private String nombreHucha;
     private Double cantidad;
-    private Double saldoActualHucha;
+    private Double saldoPosterior;
     private LocalDate fecha;
     private String fotoUsuario;
     private String fotoHucha;

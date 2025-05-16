@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS Transacciones_Ahorro (
     id_usuario INT NOT NULL,
     id_hucha INT NOT NULL,
     cantidad DECIMAL(10, 2) NOT NULL,
+    saldo_posterior DECIMAL(10, 2) NOT NULL,
     fecha DATE DEFAULT CURRENT_DATE,
     FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
         ON DELETE CASCADE,
@@ -137,49 +138,49 @@ VALUES
   ('Ahorro para Viaje en Familia', 9, 300.00, 900.00, DEFAULT, '2025-05-20'),
   ('Viaje a Asia', 10, 2500.00, 7000.00, DEFAULT, '2026-03-30');
 
--- Insertar las transacciones de ahorro
-INSERT INTO Transacciones_Ahorro (id_usuario, id_hucha, cantidad, fecha)
+-- Insertar las transacciones de ahorro con saldo_posterior
+INSERT INTO Transacciones_Ahorro (id_usuario, id_hucha, cantidad, saldo_posterior, fecha)
 VALUES
-  -- Hucha 1: Vacaciones en la playa (500.00)
-  (1, 1, 200.00, '2025-01-10'),
-  (2, 1, 300.00, '2025-02-20'),
-  (3, 1, 250.00, '2025-03-15'),
+  -- Hucha 1: Vacaciones en la playa (total: 750.00)
+  (1, 1, 200.00, 200.00, '2025-01-10'),
+  (2, 1, 300.00, 500.00, '2025-02-20'),
+  (3, 1, 250.00, 750.00, '2025-03-15'),
 
-  -- Hucha 2: Proyecto de Emprendimiento (1200.00)
-  (4, 2, 500.00, '2025-02-05'),
-  (5, 2, 400.00, '2025-04-15'),
-  (6, 2, 300.00, '2025-05-10'),
+  -- Hucha 2: Proyecto de Emprendimiento (total: 1200.00)
+  (4, 2, 500.00, 500.00, '2025-02-05'),
+  (5, 2, 400.00, 900.00, '2025-04-15'),
+  (6, 2, 300.00, 1200.00, '2025-05-10'),
 
-  -- Hucha 3: Fondo de Emergencia (800.00)
-  (7, 3, 300.00, '2025-03-10'),
-  (8, 3, 500.00, '2025-04-20'),
+  -- Hucha 3: Fondo de Emergencia (total: 800.00)
+  (7, 3, 300.00, 300.00, '2025-03-10'),
+  (8, 3, 500.00, 800.00, '2025-04-20'),
 
-  -- Hucha 4: Fiesta de Fin de Año (1000.00)
-  (9, 4, 300.00, '2025-05-10'),
-  (10, 4, 700.00, '2025-06-15'),
+  -- Hucha 4: Fiesta de Fin de Año (total: 1000.00)
+  (9, 4, 300.00, 300.00, '2025-05-10'),
+  (10, 4, 700.00, 1000.00, '2025-06-15'),
 
-  -- Hucha 5: Compra de Bicicletas (1500.00)
-  (1, 5, 500.00, '2025-02-01'),
-  (3, 5, 1000.00, '2025-04-01'),
+  -- Hucha 5: Compra de Bicicletas (total: 1500.00)
+  (1, 5, 500.00, 500.00, '2025-02-01'),
+  (3, 5, 1000.00, 1500.00, '2025-04-01'),
 
-  -- Hucha 6: Regalo de Boda (500.00)
-  (4, 6, 200.00, '2025-06-05'),
-  (5, 6, 300.00, '2025-07-15'),
+  -- Hucha 6: Regalo de Boda (total: 500.00)
+  (4, 6, 200.00, 200.00, '2025-06-05'),
+  (5, 6, 300.00, 500.00, '2025-07-15'),
 
-  -- Hucha 7: Mantenimiento del Coche (600.00)
-  (6, 7, 250.00, '2025-06-15'),
-  (7, 7, 350.00, '2025-07-20'),
+  -- Hucha 7: Mantenimiento del Coche (total: 600.00)
+  (6, 7, 250.00, 250.00, '2025-06-15'),
+  (7, 7, 350.00, 600.00, '2025-07-20'),
 
-  -- Hucha 8: Estudios de Posgrado (2000.00)
-  (8, 8, 1000.00, '2025-05-05'),
-  (9, 8, 1000.00, '2025-07-01'),
+  -- Hucha 8: Estudios de Posgrado (total: 2000.00)
+  (8, 8, 1000.00, 1000.00, '2025-05-05'),
+  (9, 8, 1000.00, 2000.00, '2025-07-01'),
 
-  -- Hucha 9: Ahorro para Viaje en Familia (300.00)
-  (10, 9, 300.00, '2025-04-10'),
+  -- Hucha 9: Ahorro para Viaje en Familia (total: 300.00)
+  (10, 9, 300.00, 300.00, '2025-04-10'),
 
-  -- Hucha 10: Viaje a Asia (2500.00)
-  (1, 10, 1000.00, '2025-03-05'),
-  (2, 10, 1500.00, '2025-05-01');
+  -- Hucha 10: Viaje a Asia (total: 2500.00)
+  (1, 10, 1000.00, 1000.00, '2025-03-05'),
+  (2, 10, 1500.00, 2500.00, '2025-05-01');
 
   -- Insertar datos en la tabla Usuario_Hucha
 INSERT INTO Usuario_Hucha (id_usuario, id_hucha, fecha_ingreso, rol)

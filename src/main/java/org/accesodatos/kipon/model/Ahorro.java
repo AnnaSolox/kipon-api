@@ -24,4 +24,7 @@ public class Ahorro {
     @ManyToOne
     @JoinColumn(name ="id_hucha", nullable = false)
     private Hucha hucha;
+
+    @Column(name ="saldo_posterior", nullable = false)
+    private Double cantidadPosterior;
 }

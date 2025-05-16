@@ -16,7 +16,7 @@ public interface AhorroMapper {
     @Mapping(source = "hucha.fotoHucha", target = "fotoHucha")
     @Mapping(source = "usuario.id", target = "idUsuario")
     @Mapping(source = "hucha.id", target = "idHucha")
-    @Mapping(source = "hucha.cantidadTotal", target = "saldoActualHucha")
+    @Mapping(source = "cantidadPosterior", target = "saldoPosterior")
     AhorroDTO toDTO (Ahorro ahorro);
 
     Ahorro toEntity (AhorroCreateDTO dto);
