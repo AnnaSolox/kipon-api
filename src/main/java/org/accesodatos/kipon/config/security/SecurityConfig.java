@@ -1,4 +1,4 @@
-package org.accesodatos.kipon.config;
+package org.accesodatos.kipon.config.security;
 
 import lombok.RequiredArgsConstructor;
 import org.accesodatos.kipon.service.UsuarioService;

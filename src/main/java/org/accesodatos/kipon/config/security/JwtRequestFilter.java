@@ -1,4 +1,4 @@
-package org.accesodatos.kipon.config;
+package org.accesodatos.kipon.config.security;
 
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;

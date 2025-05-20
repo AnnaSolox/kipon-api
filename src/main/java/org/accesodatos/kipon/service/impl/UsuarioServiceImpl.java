@@ -31,7 +31,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.accesodatos.kipon.config.SecurityUtils.obtenerEmailUsuarioDesdeContexto;
+import static org.accesodatos.kipon.config.security.SecurityUtils.obtenerEmailUsuarioDesdeContexto;
 
 @Service
 @RequiredArgsConstructor

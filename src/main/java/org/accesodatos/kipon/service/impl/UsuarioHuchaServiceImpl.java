@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static org.accesodatos.kipon.config.SecurityUtils.esAdministradorDeHucha;
-import static org.accesodatos.kipon.config.SecurityUtils.obtenerEmailUsuarioDesdeContexto;
+import static org.accesodatos.kipon.config.security.SecurityUtils.esAdministradorDeHucha;
+import static org.accesodatos.kipon.config.security.SecurityUtils.obtenerEmailUsuarioDesdeContexto;
 
 @Service
 @RequiredArgsConstructor

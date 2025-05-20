@@ -1,4 +1,4 @@
-package org.accesodatos.kipon.config;
+package org.accesodatos.kipon.config.security;
 
 import org.accesodatos.kipon.model.Hucha;
 import org.accesodatos.kipon.model.Usuario;

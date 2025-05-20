@@ -25,8 +25,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static org.accesodatos.kipon.config.SecurityUtils.esAdministradorDeHucha;
-import static org.accesodatos.kipon.config.SecurityUtils.obtenerEmailUsuarioDesdeContexto;
+import static org.accesodatos.kipon.config.security.SecurityUtils.esAdministradorDeHucha;
+import static org.accesodatos.kipon.config.security.SecurityUtils.obtenerEmailUsuarioDesdeContexto;
 
 @Service
 @RequiredArgsConstructor
