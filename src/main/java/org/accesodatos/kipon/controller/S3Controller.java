@@ -6,10 +6,7 @@ import org.accesodatos.kipon.service.S3Service;
 import org.accesodatos.kipon.service.impl.S3ServiceImpl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.services.s3.S3Client;
 
@@ -61,6 +58,23 @@ public class S3Controller {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(500).body("Error al subir imagen");
+        }
+    }
+
+    @GetMapping(value = "/download")
+    public ResponseEntity<byte[]> downloadImage(@RequestParam String key) {
+        try {
+            InputStream is = s3Service.downloadFile(key);
+
+            byte[] imageBytes = is.readAllBytes();
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG)
+                    .body(imageBytes);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(404).build();
         }
     }
 }

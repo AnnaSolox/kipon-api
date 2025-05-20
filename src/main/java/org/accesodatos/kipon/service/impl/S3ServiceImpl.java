@@ -45,7 +45,7 @@ public class S3ServiceImpl implements S3Service {
 
     @Override
     public String getUrlForKey(String key) {
-        return "https://" + bucketName + ".s3." + region + "amazonaws.com/" + key;
+        return "https://" + bucketName + ".s3." + region + ".amazonaws.com/" + key;
     }
 
 }
