@@ -55,6 +55,18 @@ public class UsuarioRestController {
         return ResponseEntity.ok(usuario);
     }
 
+    @GetMapping("/nombre")
+    @Operation(summary = "Busca usuarios cuyos nombres contienen el texto dado (búsqueda parcial)")
+    public ResponseEntity<List<UsuarioDTO>> buscarUsuariosPorNombreParcial(
+            @RequestParam String contiene) {
+
+        List<UsuarioDTO> usuarios = usuarioService.obtenerUsuariosCoincidentes(contiene);
+        if (usuarios.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(usuarios);
+    }
+
     @PutMapping("/{id}")
     @Operation(summary = "Modifica los datos de un usuario")
     public ResponseEntity<UsuarioDTO> actualizarUsuario(@PathVariable Long id, @Valid @RequestBody UsuarioUpdateDTO dto) {

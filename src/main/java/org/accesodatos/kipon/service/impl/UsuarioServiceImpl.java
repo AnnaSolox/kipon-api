@@ -56,6 +56,15 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    public List<UsuarioDTO> obtenerUsuariosCoincidentes(String nombreParcial) {
+        List<Usuario> usuarios = usuarioRepository.findByNombreContainingIgnoreCase(nombreParcial);
+        return usuarios
+                .stream()
+                .map(usuarioMapper::toDTO)
+                .toList();
+    }
+
+    @Override
     public UsuarioDTO obtenerUsuarioPorId(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Usuario con id " + id + " no encontrado"));

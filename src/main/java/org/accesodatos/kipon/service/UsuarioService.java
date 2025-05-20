@@ -12,6 +12,8 @@ import java.util.List;
 
 public interface UsuarioService extends UserDetailsService {
     List<UsuarioDTO> obtenerTodosLosUsuarios();
+    List<UsuarioDTO> obtenerUsuariosCoincidentes(String nombreParcial);
+
     UsuarioDTO obtenerUsuarioPorId(Long id);
     UsuarioDTO obtenerUsuarioPorNombreUsuario(String nombreUsuario);
     UsuarioDTO crearUsuario(UsuarioCreateDTO dto);
