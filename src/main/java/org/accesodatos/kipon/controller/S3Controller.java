@@ -67,20 +67,14 @@ public class S3Controller {
         }
     }
 
-    @GetMapping(value = "/download")
-    public ResponseEntity<byte[]> downloadImage(@RequestParam String key) {
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteImage(@RequestParam("key") String key) {
         try {
-            InputStream is = s3Service.downloadFile(key);
-
-            byte[] imageBytes = is.readAllBytes();
-
-            return ResponseEntity.ok()
-                    .contentType(MediaType.IMAGE_JPEG)
-                    .body(imageBytes);
-
+            s3Service.deleteFile(key);
+            return ResponseEntity.ok("Archivo eliminado correctamente");
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(404).build();
+            return ResponseEntity.status(500).body("Error al eliminar el archivo");
         }
     }
 }

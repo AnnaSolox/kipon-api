@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/kipon/auth")
@@ -48,9 +50,13 @@ public class AuthRestController {
     }
 
     @PostMapping("/register")
-    @Operation(summary = "Crea un nuevo usuario")
-    public ResponseEntity<UsuarioDTO> crearUsuario(@Valid @RequestBody UsuarioCreateDTO dto) {
-        UsuarioDTO usuarioCreado = usuarioService.crearUsuario(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioCreado);
+    public ResponseEntity<?> crearUsuario(@Valid @RequestBody UsuarioCreateDTO dto) {
+        try {
+            UsuarioDTO usuarioCreado = usuarioService.crearUsuario(dto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(usuarioCreado);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = Map.of("error", "Error inesperado");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
     }
 }
