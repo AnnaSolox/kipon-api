@@ -101,42 +101,42 @@ VALUES
   ('juancarlosjimenez', 'Ju@nc@rl0sJ!m3n3z', 'juan.carlos.jimenez@email.com');
 
 -- Insertar datos en la tabla Perfil
-INSERT INTO Perfil (id_usuario, nombre_completo, telefono, direccion)
+INSERT INTO Perfil (id_usuario, nombre_completo, telefono, direccion, foto_perfil)
 VALUES
-  (1, 'Juan Pérez', '612345678', 'Calle Falsa 123, Madrid'),
-  (2, 'Ana López', '623456789', 'Avenida de la Paz 234, Barcelona'),
-  (3, 'Carlos Martínez', '634567890', 'Calle del Sol 345, Valencia'),
-  (4, 'Beatriz García', '645678901', 'Plaza Mayor 456, Sevilla'),
-  (5, 'David Rodríguez', '656789012', 'Calle de la Luna 567, Zaragoza'),
-  (6, 'Elena Sánchez', '667890123', 'Avenida del Río 678, Bilbao'),
-  (7, 'Francisco Torres', '678901234', 'Calle Nueva 789, Málaga'),
-  (8, 'Gina Fernández', '689012345', 'Calle del Mar 890, Alicante'),
-  (9, 'Héctor Gómez', '690123456', 'Carrer de la Rambla 901, Valencia'),
-  (10, 'Inés Ruiz', '691234567', 'Calle de la Estrella 101, Córdoba'),
-  (11, 'José Martínez', '692345678', 'Avenida de la Libertad 12, Salamanca'),
-  (12, 'María Fernández', '693456789', 'Calle del Prado 23, Granada'),
-  (13, 'Luis González', '694567890', 'Plaza Mayor 34, Valladolid'),
-  (14, 'Pedro Álvarez', '695678901', 'Calle del Sol 45, Toledo'),
-  (15, 'Lucía Pérez', '696789012', 'Carrer de Sant Joan 56, Barcelona'),
-  (16, 'Miguel Díaz', '697890123', 'Avenida Castilla 67, Burgos'),
-  (17, 'Raquel Sánchez', '698901234', 'Calle de la Fuente 78, Segovia'),
-  (18, 'Antonio García', '699012345', 'Paseo del Carmen 89, Valencia'),
-  (19, 'Teresa Gómez', '600123456', 'Calle de la Palmera 90, Sevilla'),
-  (20, 'Juan Carlos Jiménez', '601234567', 'Paseo de las Delicias 101, Madrid');
+  (1, 'Juan Pérez', '612345678', 'Calle Falsa 123, Madrid', 'https://kipon-images.s3.us-east-1.amazonaws.com/profiles/1747805991058_image.jpg'),
+  (2, 'Ana López', '623456789', 'Avenida de la Paz 234, Barcelona', 'https://kipon-images.s3.us-east-1.amazonaws.com/profiles/1747827677631_image.jpg'),
+  (3, 'Carlos Martínez', '634567890', 'Calle del Sol 345, Valencia', 'https://kipon-images.s3.us-east-1.amazonaws.com/profiles/pexels-august-de-richelieu-7428874.jpg'),
+  (4, 'Beatriz García', '645678901', 'Plaza Mayor 456, Sevilla', 'https://kipon-images.s3.us-east-1.amazonaws.com/profiles/pexels-raphael-bruno-2151354893-32150936.jpg'),
+  (5, 'David Rodríguez', '656789012', 'Calle de la Luna 567, Zaragoza', 'https://kipon-images.s3.us-east-1.amazonaws.com/profiles/pexels-beardedbasturds-842980.jpg'),
+  (6, 'Elena Sánchez', '667890123', 'Avenida del Río 678, Bilbao', 'https://kipon-images.s3.us-east-1.amazonaws.com/profiles/pexels-oyebade-michael-226041195-32140072.jpg'),
+  (7, 'Francisco Torres', '678901234', 'Calle Nueva 789, Málaga', 'https://kipon-images.s3.us-east-1.amazonaws.com/profiles/pexels-conojeghuo-175687.jpg'),
+  (8, 'Gina Fernández', '689012345', 'Calle del Mar 890, Alicante', 'https://kipon-images.s3.us-east-1.amazonaws.com/profiles/pexels-olly-3766224.jpg'),
+  (9, 'Héctor Gómez', '690123456', 'Carrer de la Rambla 901, Valencia', 'https://kipon-images.s3.us-east-1.amazonaws.com/profiles/pexels-fashion-1466845.jpg'),
+  (10, 'Inés Ruiz', '691234567', 'Calle de la Estrella 101, Córdoba', 'https://kipon-images.s3.us-east-1.amazonaws.com/profiles/pexels-nascimento-jr-1451812733-32154720.jpg'),
+  (11, 'José Martínez', '692345678', 'Avenida de la Libertad 12, Salamanca', 'https://kipon-images.s3.us-east-1.amazonaws.com/profiles/pexels-kampus-7555845.jpg'),
+  (12, 'María Fernández', '693456789', 'Calle del Prado 23, Granada', 'https://kipon-images.s3.us-east-1.amazonaws.com/profiles/pexels-cristian-rojas-10043109.jpg'),
+  (13, 'Luis González', '694567890', 'Plaza Mayor 34, Valladolid', 'https://kipon-images.s3.us-east-1.amazonaws.com/profiles/pexels-keynotez-1845923.jpg'),
+  (14, 'Pedro Álvarez', '695678901', 'Calle del Sol 45, Toledo', 'https://kipon-images.s3.us-east-1.amazonaws.com/profiles/pexels-ron-lach-10143322.jpg'),
+  (15, 'Lucía Pérez', '696789012', 'Carrer de Sant Joan 56, Barcelona', 'https://kipon-images.s3.us-east-1.amazonaws.com/profiles/pexels-cottonbro-8925962.jpg'),
+  (16, 'Miguel Díaz', '697890123', 'Avenida Castilla 67, Burgos', 'https://kipon-images.s3.us-east-1.amazonaws.com/profiles/pexels-ron-lach-9893519.jpg'),
+  (17, 'Raquel Sánchez', '698901234', 'Calle de la Fuente 78, Segovia', 'https://kipon-images.s3.us-east-1.amazonaws.com/profiles/pexels-anne-cristine-2151523981-32094215.jpg'),
+  (18, 'Antonio García', '699012345', 'Paseo del Carmen 89, Valencia', 'https://kipon-images.s3.us-east-1.amazonaws.com/profiles/pexels-shvetsa-6250998.jpg'),
+  (19, 'Teresa Gómez', '600123456', 'Calle de la Palmera 90, Sevilla', 'https://kipon-images.s3.us-east-1.amazonaws.com/profiles/pexels-patrick-porto-1570340-4116643.jpg'),
+  (20, 'Juan Carlos Jiménez', '601234567', 'Paseo de las Delicias 101, Madrid', 'https://kipon-images.s3.us-east-1.amazonaws.com/profiles/pexels-yaroslav-shuraev-7688490.jpg');
 
 -- Insertar datos en la tabla Hucha
-  INSERT INTO Hucha (nombre_hucha, id_administrador, cantidad_total, objetivo_ahorro, fecha_creacion, fecha_objetivo)
+  INSERT INTO Hucha (nombre_hucha, id_administrador, cantidad_total, objetivo_ahorro, fecha_creacion, fecha_objetivo, foto_hucha)
 VALUES
-  ('Vacaciones en la playa', 1, 750.00, 1500.00, DEFAULT, '2025-08-15'),
-  ('Proyecto de Emprendimiento', 2, 1200.00, 5000.00, DEFAULT, '2025-12-31'),
-  ('Fondo de Emergencia', 3, 800.00, 3000.00, DEFAULT, '2025-06-30'),
-  ('Fiesta de Fin de Año', 4, 1000.00, 2000.00, DEFAULT, '2025-12-01'),
-  ('Compra de Bicicletas', 5, 1500.00, 12000.00, DEFAULT, '2025-07-10'),
-  ('Regalo de Boda', 6, 500.00, 2500.00, DEFAULT, '2025-09-25'),
-  ('Mantenimiento del Coche', 7, 600.00, 1800.00, DEFAULT, '2025-10-10'),
-  ('Estudios de Posgrado', 8, 2000.00, 8000.00, DEFAULT, '2026-01-15'),
-  ('Ahorro para Viaje en Familia', 9, 300.00, 900.00, DEFAULT, '2025-05-20'),
-  ('Viaje a Asia', 10, 2500.00, 7000.00, DEFAULT, '2026-03-30');
+  ('Vacaciones en la playa', 1, 750.00, 1500.00, DEFAULT, '2025-08-15', 'https://kipon-images.s3.us-east-1.amazonaws.com/accounts/pexels-fabianwiktor-994605.jpg'),
+  ('Proyecto de Emprendimiento', 2, 1200.00, 5000.00, DEFAULT, '2025-12-31', 'https://kipon-images.s3.us-east-1.amazonaws.com/accounts/pexels-fauxels-3184416.jpg'),
+  ('Fondo de Emergencia', 3, 800.00, 3000.00, DEFAULT, '2025-06-30', 'https://kipon-images.s3.us-east-1.amazonaws.com/accounts/pexels-clickerhappy-9660.jpg'),
+  ('Fiesta de Fin de Año', 4, 1000.00, 2000.00, DEFAULT, '2025-12-01', 'https://kipon-images.s3.us-east-1.amazonaws.com/accounts/pexels-pavel-danilyuk-6405771.jpg'),
+  ('Compra de Bicicletas', 5, 1500.00, 12000.00, DEFAULT, '2025-07-10', 'https://kipon-images.s3.us-east-1.amazonaws.com/accounts/pexels-bear-gingerbliss-422527-1102775.jpg'),
+  ('Regalo de Boda', 6, 500.00, 2500.00, DEFAULT, '2025-09-25', 'https://kipon-images.s3.us-east-1.amazonaws.com/accounts/pexels-nurseryart-360624.jpg'),
+  ('Mantenimiento del Coche', 7, 600.00, 1800.00, DEFAULT, '2025-10-10', 'https://kipon-images.s3.us-east-1.amazonaws.com/accounts/pexels-azli-nawawi-791168-32152042.jpg'),
+  ('Estudios de Posgrado', 8, 2000.00, 8000.00, DEFAULT, '2026-01-15', 'https://kipon-images.s3.us-east-1.amazonaws.com/accounts/pexels-yaroslav-shuraev-6279786.jpg'),
+  ('Ahorro para Viaje en Familia', 9, 300.00, 900.00, DEFAULT, '2025-05-20', 'https://kipon-images.s3.us-east-1.amazonaws.com/accounts/pexels-josh-willink-11499-1157399.jpg'),
+  ('Viaje a Asia', 10, 2500.00, 7000.00, DEFAULT, '2026-03-30', 'https://kipon-images.s3.us-east-1.amazonaws.com/accounts/pexels-tuan-pm-1320993433-32092626.jpg');
 
 -- Insertar las transacciones de ahorro con saldo_posterior
 INSERT INTO Transacciones_Ahorro (id_usuario, id_hucha, cantidad, saldo_posterior, fecha)

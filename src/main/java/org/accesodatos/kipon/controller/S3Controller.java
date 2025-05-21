@@ -3,7 +3,6 @@ package org.accesodatos.kipon.controller;
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;
 import org.accesodatos.kipon.service.S3Service;
-import org.accesodatos.kipon.service.impl.S3ServiceImpl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +22,7 @@ public class S3Controller {
     private final S3Service s3Service;
 
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("purpose") String purpose) {
         try {
             // Validar que sea JPG
             if (!"image/jpeg".equalsIgnoreCase(file.getContentType())) {
@@ -43,7 +42,14 @@ public class S3Controller {
 
             byte[] resizedImageBytes = baos.toByteArray();
 
-            String key = "profiles/" + System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            // Determinar carpeta según el propósito
+            String folder = switch (purpose.toLowerCase()) {
+                case "profile" -> "profiles";
+                case "account" -> "accounts";
+                default -> "others";
+            };
+
+            String key = folder + "/" + System.currentTimeMillis() + "_" + file.getOriginalFilename();
 
             // Subir imagen redimensionada a S3
             try (InputStream isResized = new ByteArrayInputStream(resizedImageBytes)) {
