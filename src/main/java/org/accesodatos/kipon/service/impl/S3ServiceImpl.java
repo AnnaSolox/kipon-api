@@ -29,6 +29,7 @@ public class S3ServiceImpl implements S3Service {
                 .key(key)
                 .contentType("image/jpeg")
                 .contentLength(contentLength)
+                .acl("public-read")
                 .build();
 
         s3Client.putObject(putObjectRequest, RequestBody.fromInputStream(inputStream, contentLength));
