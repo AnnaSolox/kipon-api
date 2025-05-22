@@ -91,6 +91,7 @@ public class UsuarioHuchaRepositoryTest {
 
         Ahorro ahorro1 = new Ahorro();
         ahorro1.setCantidad(50.0);
+        ahorro1.setCantidadPosterior(250.0);
         ahorro1.setFecha(LocalDate.now());
         ahorro1.setUsuario(usuario);
         ahorro1.setHucha(hucha);
@@ -98,6 +99,7 @@ public class UsuarioHuchaRepositoryTest {
 
         Ahorro ahorro2 = new Ahorro();
         ahorro2.setCantidad(30.0);
+        ahorro2.setCantidadPosterior(280.0);
         ahorro2.setFecha(LocalDate.now());
         ahorro2.setUsuario(usuario);
         ahorro2.setHucha(hucha);

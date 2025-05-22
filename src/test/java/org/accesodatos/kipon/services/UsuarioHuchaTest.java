@@ -1,5 +1,6 @@
 package org.accesodatos.kipon.services;
 
+import org.accesodatos.kipon.config.security.SecurityUtils;
 import org.accesodatos.kipon.dtos.request.create.UsuarioHuchaCreateDTO;
 import org.accesodatos.kipon.dtos.response.UsuarioDTO;
 import org.accesodatos.kipon.mappers.UsuarioMapper;
@@ -25,7 +26,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,6 +39,8 @@ public class UsuarioHuchaTest {
     private AhorroRepository ahorroRepository;
     @Mock
     private UsuarioHuchaRepository usuarioHuchaRepository;
+    @Mock
+    private SecurityUtils securityUtils;
 
     @Mock
     UsuarioMapper usuarioMapper;
@@ -103,6 +106,8 @@ public class UsuarioHuchaTest {
     @Test
     void añadirUsuarioHucha_Exito() {
         //GIVEN
+        when(securityUtils.obtenerEmailUsuarioDesdeContexto()).thenReturn("usuariotest@email.com");
+        when(securityUtils.esAdministradorDeHucha(any(Hucha.class), eq("usuariotest@email.com"))).thenReturn(true);
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
         when(huchaRepository.findById(1L)).thenReturn(Optional.of(hucha));
         when(usuarioHuchaRepository.findByUsuarioIdAndHuchaId(1L, 1L)).thenReturn(Optional.empty());
@@ -124,6 +129,8 @@ public class UsuarioHuchaTest {
     @Test
     void añadirUsuarioHucha_YaExisteError() {
         //GIVEN
+        when(securityUtils.obtenerEmailUsuarioDesdeContexto()).thenReturn("usuariotest@email.com");
+        when(securityUtils.esAdministradorDeHucha(any(Hucha.class), eq("usuariotest@email.com"))).thenReturn(true);
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
         when(huchaRepository.findById(1L)).thenReturn(Optional.of(hucha));
         when(usuarioHuchaRepository.findByUsuarioIdAndHuchaId(1L, 1L)).thenReturn(Optional.of(usuarioHucha));
@@ -136,6 +143,8 @@ public class UsuarioHuchaTest {
     @Test
     void añadirUsuarioHucha_AdministradorError(){
         //GIVEN
+        when(securityUtils.obtenerEmailUsuarioDesdeContexto()).thenReturn("usuariotest@email.com");
+        when(securityUtils.esAdministradorDeHucha(any(Hucha.class), eq("usuariotest@email.com"))).thenReturn(true);
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
         when(huchaRepository.findById(1L)).thenReturn(Optional.of(hucha));
         when(usuarioHuchaRepository.findByUsuarioIdAndHuchaId(1L, 1L)).thenReturn(Optional.of(usuarioHucha));

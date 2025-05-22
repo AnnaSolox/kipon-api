@@ -2,6 +2,7 @@ package org.accesodatos.kipon.integration.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.accesodatos.kipon.config.security.JwtRequestFilter;
 import org.accesodatos.kipon.controller.HuchasRestController;
 import org.accesodatos.kipon.dtos.request.create.AhorroCreateDTO;
 import org.accesodatos.kipon.dtos.request.create.HuchaCreateDTO;
@@ -10,6 +11,7 @@ import org.accesodatos.kipon.dtos.request.patch.HuchaPatchDTO;
 import org.accesodatos.kipon.dtos.response.AhorroDTO;
 import org.accesodatos.kipon.dtos.response.HuchaDTO;
 import org.accesodatos.kipon.dtos.response.UsuarioDTO;
+import org.accesodatos.kipon.jwt.JwtService;
 import org.accesodatos.kipon.service.AhorroService;
 import org.accesodatos.kipon.service.HuchaService;
 import org.accesodatos.kipon.service.UsuarioHuchaService;
@@ -17,6 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -33,6 +36,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(HuchasRestController.class)
 @ExtendWith(SpringExtension.class)
 public class HuchasRestControllerTest {
@@ -48,6 +52,12 @@ public class HuchasRestControllerTest {
 
     @MockitoBean
     private AhorroService ahorroService;
+
+    @MockitoBean
+    private JwtService jwtService;
+
+    @MockitoBean
+    private JwtRequestFilter jwtRequestFilter;
 
     @Autowired
     private ObjectMapper objectMapper;

@@ -7,6 +7,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
+import org.accesodatos.kipon.config.security.SecurityUtils;
 import org.accesodatos.kipon.dtos.request.create.HuchaCreateDTO;
 import org.accesodatos.kipon.dtos.request.patch.HuchaPatchDTO;
 import org.accesodatos.kipon.dtos.response.HuchaDTO;
@@ -25,9 +26,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static org.accesodatos.kipon.config.security.SecurityUtils.esAdministradorDeHucha;
-import static org.accesodatos.kipon.config.security.SecurityUtils.obtenerEmailUsuarioDesdeContexto;
-
 @Service
 @RequiredArgsConstructor
 public class HuchaServiceImpl implements HuchaService {
@@ -36,6 +34,7 @@ public class HuchaServiceImpl implements HuchaService {
     private final UsuarioRepository usuarioRepository;
     private final ObjectMapper objectMapper;
     private final Validator validator;
+    private final SecurityUtils securityUtils;
 
     @Override
     public List<HuchaDTO> obtenerTodasLasHuchas() {
@@ -67,7 +66,7 @@ public class HuchaServiceImpl implements HuchaService {
     @Override
     @Transactional
     public HuchaDTO crearHucha(HuchaCreateDTO dto) {
-        String emailAutenticado = obtenerEmailUsuarioDesdeContexto();
+        String emailAutenticado = securityUtils.obtenerEmailUsuarioDesdeContexto();
 
         Usuario administrador = usuarioRepository.findByEmail(emailAutenticado)
                 .orElseThrow(() -> new NoSuchElementException("Usuario con email" + emailAutenticado + " no " +
@@ -110,8 +109,8 @@ public class HuchaServiceImpl implements HuchaService {
         Hucha huchaExistente = huchaRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Hucha no encontrada con id: " + id));
 
-        String emailUsuario = obtenerEmailUsuarioDesdeContexto();
-        if (!esAdministradorDeHucha(huchaExistente, emailUsuario)) {
+        String emailUsuario = securityUtils.obtenerEmailUsuarioDesdeContexto();
+        if (!securityUtils.esAdministradorDeHucha(huchaExistente, emailUsuario)) {
             throw new AccessDeniedException("No tienes permisos para editar esta hucha");
         }
 
@@ -187,8 +186,8 @@ public class HuchaServiceImpl implements HuchaService {
         Hucha hucha = huchaRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Hucha no encontrada con id: " + id));
 
-        String emailUsuario = obtenerEmailUsuarioDesdeContexto();
-        if (!esAdministradorDeHucha(hucha, emailUsuario)) {
+        String emailUsuario = securityUtils.obtenerEmailUsuarioDesdeContexto();
+        if (!securityUtils.esAdministradorDeHucha(hucha, emailUsuario)) {
             throw new AccessDeniedException("No tienes permisos para editar esta hucha");
         }
 

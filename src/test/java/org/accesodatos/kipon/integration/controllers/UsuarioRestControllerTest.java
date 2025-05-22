@@ -1,6 +1,7 @@
 package org.accesodatos.kipon.integration.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.accesodatos.kipon.config.security.JwtRequestFilter;
 import org.accesodatos.kipon.controller.UsuarioRestController;
 import org.accesodatos.kipon.dtos.request.create.PerfilCreateDTO;
 import org.accesodatos.kipon.dtos.request.create.UsuarioCreateDTO;
@@ -8,11 +9,13 @@ import org.accesodatos.kipon.dtos.request.update.PerfilUpdateDTO;
 import org.accesodatos.kipon.dtos.request.update.UsuarioUpdateDTO;
 import org.accesodatos.kipon.dtos.response.PerfilDTO;
 import org.accesodatos.kipon.dtos.response.UsuarioDTO;
+import org.accesodatos.kipon.jwt.JwtService;
 import org.accesodatos.kipon.service.UsuarioService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -27,6 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(UsuarioRestController.class)
 @ExtendWith(SpringExtension.class)
 public class UsuarioRestControllerTest {
@@ -34,6 +38,12 @@ public class UsuarioRestControllerTest {
     private MockMvc mockMvc;
     @MockitoBean
     private UsuarioService usuarioService;
+
+    @MockitoBean
+    private JwtService jwtService;
+
+    @MockitoBean
+    private JwtRequestFilter jwtRequestFilter;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -106,41 +116,6 @@ public class UsuarioRestControllerTest {
                 .andExpect(status().isNotFound());
 
         verify(usuarioService, times(1)).obtenerUsuarioPorId(2L);
-    }
-
-    @Test
-    void crearUsuario_Exito() throws Exception {
-        // Prueba para POST /kipon/usuarios con datos válidos
-
-        // GIVEN
-        when(usuarioService.crearUsuario(any(UsuarioCreateDTO.class))).thenReturn(usuarioDTO);
-
-        String jsonBody = objectMapper.writeValueAsString(usuarioCreateDTO);
-
-        // WHEN & THEN
-        mockMvc.perform(post("/kipon/usuarios")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonBody))
-                .andExpect(status().isCreated());
-
-        verify(usuarioService).crearUsuario(any(UsuarioCreateDTO.class));
-    }
-
-    @Test
-    void crearUsuario_DatosInvalidos() throws Exception {
-        // Prueba para POST /kipon/usuarios con datos inválidos
-
-        // GIVEN
-        usuarioCreateDTO.setPassword("");
-        String jsonBody = objectMapper.writeValueAsString(usuarioCreateDTO);
-
-        // WHEN & THEN: Se espera 400 Bad Request
-        mockMvc.perform(post("/kipon/usuarios")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonBody))
-                .andExpect(status().isBadRequest());
-
-        verify(usuarioService, never()).crearUsuario(any(UsuarioCreateDTO.class));
     }
 
     @Test

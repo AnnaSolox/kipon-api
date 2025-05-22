@@ -78,6 +78,7 @@ public class AhorroRepositoryTest {
         ahorro.setUsuario(usuario);
         ahorro.setHucha(hucha);
         ahorro.setCantidad(50.0);
+        ahorro.setCantidadPosterior(150.0);
         ahorro.setFecha(LocalDate.now());
 
         // WHEN: Crear el ahorro
@@ -87,6 +88,7 @@ public class AhorroRepositoryTest {
         Ahorro ahorroRecuperado = ahorroRepository.findById(ahorro.getId()).orElse(null);
         assertNotNull(ahorroRecuperado);
         assertEquals(50.0, ahorroRecuperado.getCantidad());
+        assertEquals(150.0, ahorroRecuperado.getCantidadPosterior());
         assertEquals(usuario.getId(), ahorroRecuperado.getUsuario().getId());
         assertEquals(hucha.getId(), ahorroRecuperado.getHucha().getId());
     }

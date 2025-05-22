@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Validator;
+import org.accesodatos.kipon.config.security.SecurityUtils;
 import org.accesodatos.kipon.dtos.request.create.HuchaCreateDTO;
 import org.accesodatos.kipon.dtos.request.patch.HuchaPatchDTO;
 import org.accesodatos.kipon.dtos.response.HuchaDTO;
@@ -20,6 +21,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -42,6 +44,9 @@ public class HuchaServiceTest {
     @Mock
     private Validator validator;
 
+    @Mock
+    private SecurityUtils securityUtils;
+
     @InjectMocks
     private HuchaServiceImpl huchaService;
 
@@ -50,6 +55,7 @@ public class HuchaServiceTest {
     private HuchaPatchDTO huchaPatchDTO;
     private HuchaDTO huchaDTO;
     private Usuario usuario;
+    private UsernamePasswordAuthenticationToken auth;
 
     @BeforeEach
     void setUp(){
@@ -57,6 +63,7 @@ public class HuchaServiceTest {
         usuario = new Usuario();
         usuario.setId(1L);
         usuario.setNombre("usuarioAdministrador");
+        usuario.setEmail("usuario@example.com");
 
         // Crear una hucha
         hucha = new Hucha();
@@ -159,8 +166,9 @@ public class HuchaServiceTest {
     @Test
     void crearHucha_Exito(){
         //GIVEN
+        when(securityUtils.obtenerEmailUsuarioDesdeContexto()).thenReturn("usuario@example.com");
         when(huchaMapper.toEntity(huchaCreateDTO)).thenReturn(hucha);
-        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
+        when(usuarioRepository.findByEmail("usuario@example.com")).thenReturn(Optional.of(usuario));
         when(huchaRepository.save(any(Hucha.class))).thenReturn(hucha);
         when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuario);
         when(huchaMapper.toDTO(any(Hucha.class))).thenReturn(huchaDTO);
@@ -181,6 +189,8 @@ public class HuchaServiceTest {
     @Test
     void eliminarHucha_Exito(){
         //GIVEN
+        when(securityUtils.obtenerEmailUsuarioDesdeContexto()).thenReturn("usuario@example.com");
+        when(securityUtils.esAdministradorDeHucha(any(Hucha.class), eq("usuario@example.com"))).thenReturn(true);
         when(huchaRepository.findById(1L)).thenReturn(Optional.of(hucha));
 
         //WHEN
@@ -193,6 +203,8 @@ public class HuchaServiceTest {
     @Test
     void actualizarHuchaParcial_Exito() throws JsonProcessingException {
         //GIVEN
+        when(securityUtils.obtenerEmailUsuarioDesdeContexto()).thenReturn("usuario@example.com");
+        when(securityUtils.esAdministradorDeHucha(any(Hucha.class), eq("usuario@example.com"))).thenReturn(true);
         when(huchaRepository.findById(1L)).thenReturn(Optional.of(hucha));
         when(huchaRepository.save(any(Hucha.class))).thenReturn(hucha);
 

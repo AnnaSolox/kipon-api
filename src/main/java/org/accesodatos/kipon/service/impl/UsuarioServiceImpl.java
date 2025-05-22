@@ -7,6 +7,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
+import org.accesodatos.kipon.config.security.SecurityUtils;
 import org.accesodatos.kipon.dtos.request.create.UsuarioCreateDTO;
 import org.accesodatos.kipon.dtos.request.patch.UsuarioPatchDTO;
 import org.accesodatos.kipon.dtos.request.update.UsuarioUpdateDTO;
@@ -17,7 +18,6 @@ import org.accesodatos.kipon.model.Usuario;
 import org.accesodatos.kipon.repository.HuchaRepository;
 import org.accesodatos.kipon.repository.UsuarioRepository;
 import org.accesodatos.kipon.service.UsuarioService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,8 +31,6 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.accesodatos.kipon.config.security.SecurityUtils.obtenerEmailUsuarioDesdeContexto;
-
 @Service
 @RequiredArgsConstructor
 public class UsuarioServiceImpl implements UsuarioService {
@@ -40,11 +38,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final UsuarioMapper usuarioMapper;
     private final ObjectMapper objectMapper;
     private final Validator validator;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private HuchaRepository huchaRepository;
+    private final SecurityUtils securityUtils;
+    private final  PasswordEncoder passwordEncoder;
+    private final HuchaRepository huchaRepository;
 
     @Override
     public List<UsuarioDTO> obtenerTodosLosUsuarios() {
@@ -104,7 +100,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuarioExistente = usuarioRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Usuario no encontrado con id: " + id));
 
-        String emailAutenticado = obtenerEmailUsuarioDesdeContexto();
+        String emailAutenticado = securityUtils.obtenerEmailUsuarioDesdeContexto();
         if (!usuarioExistente.getEmail().equals(emailAutenticado)) {
             throw new AccessDeniedException("No tienes permiso para eliminar este usuario.");
         }
@@ -134,7 +130,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuarioExistente = usuarioRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Usuario no encontrado con id: " + id));
 
-        String emailAutenticado = obtenerEmailUsuarioDesdeContexto();
+        String emailAutenticado = securityUtils.obtenerEmailUsuarioDesdeContexto();
         if (!usuarioExistente.getEmail().equals(emailAutenticado)) {
             throw new AccessDeniedException("No tienes permiso para eliminar este usuario.");
         }
@@ -188,7 +184,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("El usuario con ID " + id + "no existe."));
 
-        String emailAutenticado = obtenerEmailUsuarioDesdeContexto();
+        String emailAutenticado = securityUtils.obtenerEmailUsuarioDesdeContexto();
         if (!usuario.getEmail().equals(emailAutenticado)) {
             throw new AccessDeniedException("No tienes permiso para eliminar este usuario.");
         }

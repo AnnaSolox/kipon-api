@@ -3,6 +3,8 @@ package org.accesodatos.kipon.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.Validator;
+import org.accesodatos.kipon.config.security.SecurityUtils;
 import org.accesodatos.kipon.dtos.request.create.UsuarioCreateDTO;
 import org.accesodatos.kipon.dtos.request.patch.UsuarioPatchDTO;
 import org.accesodatos.kipon.dtos.request.update.UsuarioUpdateDTO;
@@ -20,8 +22,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import jakarta.validation.Validator;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -39,6 +41,12 @@ public class UsuarioServiceTest {
     private ObjectMapper objectMapper;
     @Mock
     private Validator validator;
+
+    @Mock
+    private SecurityUtils securityUtils;
+
+    @Mock
+    PasswordEncoder passwordEncoder;
 
     @InjectMocks
     //Implementación del servicio:
@@ -154,12 +162,13 @@ public class UsuarioServiceTest {
     @Test
     void actualizarUsuario_Exito(){
         //GIVEN
+        when(securityUtils.obtenerEmailUsuarioDesdeContexto()).thenReturn("usuariotest@email.com");
+        when(passwordEncoder.encode(any(CharSequence.class))).thenReturn("passwordTest");
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
         when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuario);
         when(usuarioMapper.toDTO(any(Usuario.class))).thenReturn(usuarioDTO);
 
         //simular cambios en el DTO de actualización
-        usuarioUpdateDTO.setPassword("nuevoPassword");
         usuarioUpdateDTO.setEmail("nuevotest@email.com");
 
         //WHEN
@@ -172,6 +181,7 @@ public class UsuarioServiceTest {
     @Test
     void actualizarUsuarioParcial_Exito() throws JsonProcessingException {
         //GIVEN
+        when(securityUtils.obtenerEmailUsuarioDesdeContexto()).thenReturn("usuariotest@email.com");
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
         when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuario);
 
@@ -204,6 +214,7 @@ public class UsuarioServiceTest {
     @Test
     void eliminarUsuario_Exito(){
         //GIVEN
+        when(securityUtils.obtenerEmailUsuarioDesdeContexto()).thenReturn("usuariotest@email.com");
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
         doNothing().when(usuarioRepository).delete(any(Usuario.class));
 

@@ -2,6 +2,7 @@ package org.accesodatos.kipon.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.accesodatos.kipon.config.security.SecurityUtils;
 import org.accesodatos.kipon.dtos.request.create.UsuarioHuchaCreateDTO;
 import org.accesodatos.kipon.dtos.response.UsuarioDTO;
 import org.accesodatos.kipon.mappers.UsuarioMapper;
@@ -22,9 +23,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static org.accesodatos.kipon.config.security.SecurityUtils.esAdministradorDeHucha;
-import static org.accesodatos.kipon.config.security.SecurityUtils.obtenerEmailUsuarioDesdeContexto;
-
 @Service
 @RequiredArgsConstructor
 public class UsuarioHuchaServiceImpl implements UsuarioHuchaService {
@@ -33,6 +31,7 @@ public class UsuarioHuchaServiceImpl implements UsuarioHuchaService {
     private final UsuarioHuchaRepository usuarioHuchaRepository;
     private final AhorroRepository ahorroRepository;
     private final UsuarioMapper usuarioMapper;
+    private final SecurityUtils securityUtils;
 
     @Override
     @Transactional
@@ -43,8 +42,8 @@ public class UsuarioHuchaServiceImpl implements UsuarioHuchaService {
         Hucha hucha = huchaRepository.findById(dto.getIdHucha())
                 .orElseThrow(() -> new NoSuchElementException("Hucha no encontrada con id: " + dto.getIdHucha()));
 
-        String emailUsuario = obtenerEmailUsuarioDesdeContexto();
-        if (!esAdministradorDeHucha(hucha, emailUsuario)) {
+        String emailUsuario = securityUtils.obtenerEmailUsuarioDesdeContexto();
+        if (!securityUtils.esAdministradorDeHucha(hucha, emailUsuario)) {
             throw new AccessDeniedException("No tienes permisos para añadir usuarios esta hucha");
         }
 
