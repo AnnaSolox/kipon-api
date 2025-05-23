@@ -26,6 +26,6 @@ jobs:
 
       - name: Deploy to Elastic Beanstalk
         run: |
-          eb init kipon --platform "Java" --region us-east-1
+          eb init kipon --platform "Java Corretto 21 running on 64bit Amazon Linux 2023" --region us-east-1
           eb use Kipon-env
           eb deploy
