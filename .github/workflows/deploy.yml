@@ -36,9 +36,6 @@ jobs:
         run: |
           pip install --upgrade --user awsebcli
           echo "$HOME/.local/bin" >> $GITHUB_PATH
-      - name: Check AWS identity
-        run: aws sts get-caller-identity
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -47,6 +44,9 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
 
+      - name: Check AWS identity 
+        run: aws sts get-caller-identity
+        
       - name: Set environment variables in EB
         run: |
           cd deploy
