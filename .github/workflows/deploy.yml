@@ -19,6 +19,9 @@ jobs:
       - name: List target directory
         run: ls -la target
 
+      - name: Move JAR to root
+        run: mv target/kipon-0.0.1-SNAPSHOT.jar ./application.jar
+
       - name: Install EB CLI
         run: pip install awsebcli
 
