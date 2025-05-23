@@ -48,7 +48,7 @@ jobs:
       - name: Set environment variables in EB
         run: |
           cd deploy
-          eb init kipon --platform "Corretto 21 running on 64bit Amazon Linux 2023" --region us-east-1
+          eb init kipon --platform "Corretto 21 running on 64bit Amazon Linux 2023" --region us-east-1 --quiet
           eb use Kipon-env 
           eb setenv \
             SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }} \
