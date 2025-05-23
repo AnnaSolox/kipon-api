@@ -25,8 +25,11 @@ jobs:
       - name: List target directory
         run: ls -la target
 
-      - name: Rename JAR for EB
-        run: mv target/kipon-0.0.1-SNAPSHOT.jar application.jar
+      - name: Prepare deployment package
+        run: |
+          mkdir deploy
+          cp target/kipon-0.0.1-SNAPSHOT.jar deploy/application.jar
+          cp Procfile deploy/
 
       - name: Install EB CLI
         run: |
@@ -43,6 +46,7 @@ jobs:
 
       - name: Deploy to Elastic Beanstalk
         run: |
+          cd deploy
           eb init kipon --platform "Corretto 21 running on 64bit Amazon Linux 2023" --region us-east-1
           eb use Kipon-env
           eb deploy
