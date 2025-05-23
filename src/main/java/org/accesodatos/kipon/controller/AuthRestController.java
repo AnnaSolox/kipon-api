@@ -8,7 +8,6 @@ import org.accesodatos.kipon.dtos.request.create.UsuarioCreateDTO;
 import org.accesodatos.kipon.dtos.response.UsuarioDTO;
 import org.accesodatos.kipon.jwt.JwtService;
 import org.accesodatos.kipon.service.UsuarioService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,14 +24,10 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/kipon/auth")
 public class AuthRestController {
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    UsuarioService usuarioService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
+    private final UsuarioService usuarioService;
 
     @PostMapping("/login")
     @Operation(summary = "Inicio de sesión de un usuario")
