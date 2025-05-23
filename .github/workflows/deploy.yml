@@ -21,10 +21,7 @@ jobs:
           distribution: temurin
 
       - name: Build with Maven
-        run: mvn clean package -DskipTests 
-      
-      - name: List target directory
-        run: ls -la target
+        run: mvn clean package -DskipTests
 
       - name: Prepare deployment package
         run: |
@@ -36,6 +33,7 @@ jobs:
         run: |
           pip install --upgrade --user awsebcli
           echo "$HOME/.local/bin" >> $GITHUB_PATH
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -44,28 +42,14 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
 
-      - name: Check AWS identity 
-        run: aws sts get-caller-identity
-        
-      - name: Set environment variables in EB
+      - name: Deploy to Elastic Beanstalk
         run: |
           cd deploy
           eb init kipon --platform "Corretto 21 running on 64bit Amazon Linux 2023" --region us-east-1 --quiet
-          eb use Kipon-env 
+          eb use Kipon-env
           eb setenv \
             SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }} \
             SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }} \
             SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }} \
-            JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} \
-            AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
-            AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
-            AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
-          eb deploy --debug
-
-      - name: Print AWS env vars (masked)
-        run: |
-          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}"
-          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-          echo "AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}"
-          
-          
+            JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}
+          eb deploy
