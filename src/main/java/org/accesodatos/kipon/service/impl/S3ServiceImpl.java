@@ -18,7 +18,7 @@ public class S3ServiceImpl implements S3Service {
 
     private final S3Client s3Client;
 
-    @Value("${aws.s3.bucket-name}")
+    @Value("${aws.s3.bucket.name}")
     private String bucketName;
 
     @Value("${aws.s3.region}")
