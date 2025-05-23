@@ -47,18 +47,18 @@ jobs:
 
       - name: Set environment variables in EB
         run: |
-          eb setenv \
-          SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }} \
-          SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }} \
-          SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }} \
-          JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} \
-          AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
-          AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
-          AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
-
-      - name: Deploy to Elastic Beanstalk
-        run: |
           cd deploy
-          eb init kipon --platform "Corretto 21 running on 64bit Amazon Linux 2023" --region us-east-1
-          eb use Kipon-env
+          eb init kipon --platform "Corretto 21 running on 64bit Amazon Linux 2023" --region us-east-1 --interactive false
+          eb use Kipon-env 
+          eb setenv \
+            SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }} \
+            SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }} \
+            SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }} \
+            JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} \
+            AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+            AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+            AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
           eb deploy
+          
+          
+          
