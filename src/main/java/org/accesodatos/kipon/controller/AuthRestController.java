@@ -30,7 +30,7 @@ public class AuthRestController {
     private final UsuarioService usuarioService;
 
     @PostMapping("/login")
-    @Operation(summary = "Inicio de sesión de un usuario")
+    @Operation(summary = "Iniciar sesión de un usuario")
     public ResponseEntity<String> loguearUsuario(@RequestBody LoginDTO loginDTO) {
         System.out.println("Login Request - Username: " + loginDTO.getUserName() + ", Password: " + loginDTO.getPassword());
         try {
@@ -45,6 +45,7 @@ public class AuthRestController {
     }
 
     @PostMapping("/register")
+    @Operation(summary = "Registrar usuario")
     public ResponseEntity<?> crearUsuario(@Valid @RequestBody UsuarioCreateDTO dto) {
         try {
             UsuarioDTO usuarioCreado = usuarioService.crearUsuario(dto);

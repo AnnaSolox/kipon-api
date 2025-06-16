@@ -1,5 +1,6 @@
 package org.accesodatos.kipon.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;
 import org.accesodatos.kipon.service.S3Service;
@@ -22,6 +23,7 @@ public class S3Controller {
     private final S3Service s3Service;
 
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Subir imagen a S3")
     public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("purpose") String purpose) {
         try {
             // Validar que sea JPG
@@ -68,6 +70,7 @@ public class S3Controller {
     }
 
     @DeleteMapping("/delete")
+    @Operation(summary = "Eliminar imagen de S3")
     public ResponseEntity<String> deleteImage(@RequestParam("key") String key) {
         try {
             s3Service.deleteFile(key);
