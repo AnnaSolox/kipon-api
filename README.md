@@ -27,6 +27,12 @@ Puedes acceder a la documentación de los métodos de la APIREST de Kipon a trav
 
 ---
 
+---
+
+## APP Móvil
+Puedes consultar el código de la aplicación móvil desarrollada para interactuar con esta API en el siguiente enlace:
+[KIPON APP](https://github.com/AnnaSolox/Kipon)
+
 ## Licencia
 Diseñado y desarrollado por AnnaSolox en 2025.
 
