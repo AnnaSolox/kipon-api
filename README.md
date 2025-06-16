@@ -25,3 +25,16 @@ Desarrollada en `Java` y `Spring Boot`
 Puedes acceder a la documentación de los métodos de la APIREST de Kipon a través del siguiente enlace:
 [Documentacion APIRES KIPON](http://kipon-api.us-east-1.elasticbeanstalk.com:8080/swagger-ui/index.html#/)
 
+---
+
+## Licencia
+Diseñado y desarrollado por AnnaSolox en 2025.
+
+Este proyecto está bajo la licencia [Apache 2.0](/LICENSE).
+No puedes usar este archivo salvo en cumplimiento con la Licencia.
+Puedes obtener una copia de la Licencia en:
+
+https://opensource.org/license/apache-2-0
+
+A menos que lo exija la ley aplicable o se acuerde por escrito, el software distribuido bajo la Licencia se distribuye "TAL CUAL", SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ya sean expresas o implícitas.
+Consulta la Licencia para conocer el lenguaje específico que regula los permisos y limitaciones bajo la Licencia.
