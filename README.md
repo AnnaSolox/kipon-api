@@ -23,7 +23,7 @@ Desarrollada en `Java` y `Spring Boot`
 
 ## Documentación Endpoints
 Puedes acceder a la documentación de los métodos de la APIREST de Kipon a través del siguiente enlace:
-[Documentacion APIRES KIPON](http://kipon-api.us-east-1.elasticbeanstalk.com:8080/swagger-ui/index.html#/)
+[Documentacion APIREST KIPON](http://kipon-api.us-east-1.elasticbeanstalk.com:8080/swagger-ui/index.html#/)
 
 ---
 
