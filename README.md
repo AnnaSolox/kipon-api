@@ -31,6 +31,8 @@ Desarrollada en `Java` y `Spring Boot`
 ## CI/CD
 `Despliegue automatizado` a Elastic beanstalk mediante el workflow [deploy.yml](.github/workflows/deploy.yml)
 
+---
+
 ## Documentación Endpoints
 Puedes acceder a la documentación de los métodos de la APIREST de Kipon a través del siguiente enlace:
 [Documentacion APIREST KIPON](http://kipon-api.us-east-1.elasticbeanstalk.com:8080/swagger-ui/index.html#/)
@@ -40,6 +42,8 @@ Puedes acceder a la documentación de los métodos de la APIREST de Kipon a trav
 ## APP Móvil
 Puedes consultar el código de la aplicación móvil desarrollada para interactuar con esta API en el siguiente enlace:
 [KIPON APP](https://github.com/AnnaSolox/Kipon)
+
+---
 
 ## Licencia
 Diseñado y desarrollado por AnnaSolox en 2025.
