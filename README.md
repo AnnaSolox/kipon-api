@@ -33,9 +33,13 @@ Desarrollada en `Java` y `Spring Boot`
 
 ## Documentación Endpoints
 Puedes acceder a la documentación de los métodos de la APIREST de Kipon a través del siguiente enlace:
-[Documentacion APIRES KIPON](http://kipon-api.us-east-1.elasticbeanstalk.com:8080/swagger-ui/index.html#/)
+[Documentacion APIREST KIPON](http://kipon-api.us-east-1.elasticbeanstalk.com:8080/swagger-ui/index.html#/)
 
 ---
+
+## APP Móvil
+Puedes consultar el código de la aplicación móvil desarrollada para interactuar con esta API en el siguiente enlace:
+[KIPON APP](https://github.com/AnnaSolox/Kipon)
 
 ## Licencia
 Diseñado y desarrollado por AnnaSolox en 2025.
