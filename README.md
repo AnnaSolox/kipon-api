@@ -1,6 +1,6 @@
 # KIPON API
 
-> [Versión en Español / Spanish version](README.md)
+> [Versión en Español / Spanish version](README_ES.md)
 
 This application is part of the backend development for the final project of the DAM superior grade.
 It allows the frontend to perform actions on the database through REST endpoints.
