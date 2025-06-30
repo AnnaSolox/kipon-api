@@ -17,7 +17,8 @@ Desarrollada en `Java` y `Spring Boot`
   a bases de datos relacionales mediante JPA e interfaces automáticas.
 - **[Spring Security](https://spring.io/projects/spring-security)**: Framework para gestionar la seguridad en aplicaciones Spring, incluyendo autenticación y autorización.
 - **[Swagger](https://swagger.io/tools/swagger-ui/)**: Herramienta de documentación y prueba APIs RESTful mediante una interfaz interactiva generada automáticamente.
-- **[MapStruct](https://mapstruct.org/)**: Generador de código para mapeo entre objetos Java, que facilita la conversión entre DTOs y entidades con alto rendimiento.
+- **[MapStruct](https://mapstruct.org/)**: Generador de código para mapeo entre objetos Java, que facilita la conversión entre DTOs y entidades con alto 
+- **[Swagger](https://swagger.io/)**: Generador de documentación.
 
 ---
 
@@ -30,12 +31,6 @@ Desarrollada en `Java` y `Spring Boot`
 
 ## CI/CD
 `Despliegue automatizado` a Elastic beanstalk mediante el workflow [deploy.yml](.github/workflows/deploy.yml)
-
----
-
-## Documentación Endpoints
-Puedes acceder a la documentación de los métodos de la APIREST de Kipon a través del siguiente enlace:
-[Documentacion APIREST KIPON](http://kipon-api.us-east-1.elasticbeanstalk.com:8080/swagger-ui/index.html#/)
 
 ---
 
