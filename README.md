@@ -41,7 +41,7 @@ You can check out the source code of the mobile application developed to interac
 ## Licencia
 Designed and developed by AnnaSolox in 2025.
 
-Este proyecto está bajo la licencia [Apache 2.0](/LICENSE).
+This projecy is under the [Apache 2.0](/LICENSE) license.
 You may not use this file except in compliance with the License.
 You may obtain a copy of the License at:
 
