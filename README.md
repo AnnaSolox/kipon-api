@@ -17,7 +17,6 @@ Developed in `Java` and `Spring Boot`
 - **[Spring Security](https://spring.io/projects/spring-security)**: Framework for managing security in Spring applications, including authentication and authorization.
 - **[Swagger](https://swagger.io/tools/swagger-ui/)**: Tool for documenting and testing RESTful APIs through an automatically generated interactive interface.
 - **[MapStruct](https://mapstruct.org/)**: Code generator for mapping between Java objects, facilitating the conversion between DTOs and entities.
-- **[Swagger](https://swagger.io/)**: Documentation generator.
 
 ---
 
